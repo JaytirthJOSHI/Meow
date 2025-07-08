@@ -10,7 +10,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="meowlang",
-    version="0.0.3",
+    version="0.1.0",
     author="Jay Joshi",
     author_email="jay@joshi1.com",
     description="A feline-friendly esoteric programming language",
