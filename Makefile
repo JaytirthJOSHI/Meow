@@ -1,18 +1,24 @@
 # Makefile for .meow language project
 
-.PHONY: help test run-examples clean install format lint
+.PHONY: help test run-examples clean install format lint build publish style check-examples package-vscode all
 
 help:
 	@echo ".meow Language Makefile"
 	@echo ""
 	@echo "Available commands:"
-	@echo "  test          - Run all tests"
-	@echo "  run-examples  - Run all example programs"
-	@echo "  clean         - Clean up generated files"
-	@echo "  install       - Install the package"
-	@echo "  format        - Format code with black"
-	@echo "  lint          - Run linting with flake8"
-	@echo "  demo          - Run a quick demo"
+	@echo "  test            - Run all tests"
+	@echo "  run-examples    - Run all example programs"
+	@echo "  check-examples  - Run all .meow files in examples/"
+	@echo "  clean           - Clean up generated files"
+	@echo "  install         - Install the package"
+	@echo "  format          - Format code with black"
+	@echo "  lint            - Run linting with flake8"
+	@echo "  style           - Run isort, black, and flake8"
+	@echo "  build           - Build the package for PyPI"
+	@echo "  publish         - Publish the package to PyPI"
+	@echo "  package-vscode  - Package the VSCode extension (zip)"
+	@echo "  demo            - Run a quick demo"
+	@echo "  all             - Run format, lint, test, and run-examples"
 
 test:
 	@echo "Running tests..."
@@ -53,5 +59,31 @@ format:
 lint:
 	@echo "Running linter..."
 	flake8 meow_interpreter.py test_meow.py
+
+check-examples:
+	@echo "Running all .meow files in examples/..."
+	@for f in examples/*.meow; do \
+	  echo "=== Running $$f ==="; \
+	  python meow_interpreter.py "$$f"; \
+	  echo ""; \
+	done
+
+style:
+	@echo "Checking code style..."
+	isort meow_interpreter.py test_meow.py
+	black meow_interpreter.py test_meow.py
+	flake8 meow_interpreter.py test_meow.py
+
+build:
+	@echo "Building package..."
+	python -m build
+
+publish:
+	@echo "Publishing to PyPI..."
+	twine upload dist/*
+
+package-vscode:
+	@echo "Packaging VSCode extension..."
+	cd vscode-meowlang && zip -r ../meowlang-vscode.zip .
 
 all: format lint test run-examples

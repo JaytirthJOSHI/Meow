@@ -1,0 +1,12 @@
+🐾 Demonstrate the 'stretch' command 🐾
+meow
+meow
+meow
+hiss
+hiss
+hiss
+hiss
+purr
+stretch
+purr
+🐾 The first purr should print -1, the second should print 1 🐾

@@ -257,5 +257,46 @@ purr
         result = self.interpreter.run(code)
         self.assertEqual(result, "1")
 
+    def test_calculator_commands(self):
+        """Test cat-themed calculator commands"""
+        code = """
+meow
+meow
+meow      # cell 0 = 3
+right
+meow
+meow
+meow
+meow      # cell 1 = 4
+left
+knead     # cell 0 = 7
+purr
+right
+meow
+meow      # cell 1 = 2
+left
+pounceon  # cell 0 = 14
+purr
+right
+scratchout # cell 1 = 2 - 14 = -12
+purr
+left
+hairball  # cell 0 = 14 // -12 = -2
+purr
+right
+meow      # cell 1 = -11
+left
+pawprint  # cell 0 = -2 % -11 = -2
+purr
+right
+meow      # cell 1 = 3
+left
+catnip    # cell 0 = (-2) ** 3 = -8
+purr
+"""
+        result = self.interpreter.run(code)
+        expected = "7\n14\n-12\n-2\n-2\n-8"
+        self.assertEqual(result, expected)
+
 if __name__ == '__main__':
     unittest.main()

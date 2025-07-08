@@ -68,6 +68,14 @@ Output:
 | `🐾` | Comment/decoration (ignored) | `🐾 comment 🐾` |
 | `mew` | Take user input and set memory to that value | `mew` → memory = user input |
 | `pounce <line_number>` | Jump to the specified line number (1-based) | `pounce 5` |
+| `knead` | Add current and next cell, store in current | `knead` → memory[pointer] += memory[pointer+1] |
+| `scratchout` | Subtract next cell from current, store in current | `scratchout` → memory[pointer] -= memory[pointer+1] |
+| `pounceon` | Multiply current and next cell, store in current | `pounceon` → memory[pointer] *= memory[pointer+1] |
+| `hairball` | Integer divide current by next cell, store in current | `hairball` → memory[pointer] //= memory[pointer+1] |
+| `pawprint` | Modulo current by next cell, store in current | `pawprint` → memory[pointer] %= memory[pointer+1] |
+| `catnip` | Raise current to power of next cell, store in current | `catnip` → memory[pointer] **= memory[pointer+1] |
+| `snuggle` | Copy value from next cell to current cell | `snuggle` → memory[pointer] = memory[pointer+1] |
+| `mewmew` | Take user input and store in next cell | `mewmew` → memory[pointer+1] = user input |
 
 ## File Extension
 
@@ -256,8 +264,35 @@ Hello, world!
 Done!
 ```
 
+### Calculator Example
+
+```meow
+🐾 Simple calculator: (3 + 4) * 2 🐾
+meow
+meow
+meow      🐾 cell 0 = 3
+right
+meow
+meow
+meow
+meow      🐾 cell 1 = 4
+left
+knead     🐾 cell 0 = 3 + 4 = 7
+right
+meow
+meow      🐾 cell 1 = 2
+left
+pounceon  🐾 cell 0 = 7 * 2 = 14
+purr      🐾 prints 14
+```
+
+### More Examples
+
+See `examples/calculator.meow` for a full calculator program using the cat-themed calculator commands (`knead`, `scratchout`, `pounceon`, `hairball`, `pawprint`, `catnip`).
+
 ## Usage
 
 ### Command Line Interface
 
+```
 ```

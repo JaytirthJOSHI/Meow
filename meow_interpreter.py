@@ -121,8 +121,74 @@ class MeowInterpreter:
                     print(f"Warning: pounce to invalid line {line_num}", file=sys.stderr)
             else:
                 print("Warning: Invalid pounce syntax. Use 'pounce <line_number>'", file=sys.stderr)
+        elif command == 'knead':
+            # Add current and next cell, store in current
+            if self.pointer + 1 < len(self.memory):
+                try:
+                    self.memory[self.pointer] += self.memory[self.pointer + 1]
+                except Exception as e:
+                    print(f"Error in knead: {e}", file=sys.stderr)
+            else:
+                print("Error: knead requires a next cell", file=sys.stderr)
+        elif command == 'scratchout':
+            # Subtract next cell from current, store in current
+            if self.pointer + 1 < len(self.memory):
+                try:
+                    self.memory[self.pointer] -= self.memory[self.pointer + 1]
+                except Exception as e:
+                    print(f"Error in scratchout: {e}", file=sys.stderr)
+            else:
+                print("Error: scratchout requires a next cell", file=sys.stderr)
+        elif command == 'pounceon':
+            # Multiply current and next cell, store in current
+            if self.pointer + 1 < len(self.memory):
+                try:
+                    self.memory[self.pointer] *= self.memory[self.pointer + 1]
+                except Exception as e:
+                    print(f"Error in pounceon: {e}", file=sys.stderr)
+            else:
+                print("Error: pounceon requires a next cell", file=sys.stderr)
         elif command == 'hairball':
-            self.memory[self.pointer] //= 2
+            # Integer divide current by next cell, store in current
+            if self.pointer + 1 < len(self.memory):
+                divisor = self.memory[self.pointer + 1]
+                try:
+                    if divisor != 0:
+                        self.memory[self.pointer] //= divisor
+                    else:
+                        print("Error: hairball division by zero", file=sys.stderr)
+                        self.memory[self.pointer] = 0
+                except Exception as e:
+                    print(f"Error in hairball: {e}", file=sys.stderr)
+            else:
+                # fallback to old behavior: halve
+                try:
+                    self.memory[self.pointer] //= 2
+                except Exception as e:
+                    print(f"Error in hairball (halve): {e}", file=sys.stderr)
+        elif command == 'pawprint':
+            # Modulo current by next cell, store in current
+            if self.pointer + 1 < len(self.memory):
+                mod = self.memory[self.pointer + 1]
+                try:
+                    if mod != 0:
+                        self.memory[self.pointer] %= mod
+                    else:
+                        print("Error: pawprint by zero is not allowed", file=sys.stderr)
+                        self.memory[self.pointer] = 0
+                except Exception as e:
+                    print(f"Error in pawprint: {e}", file=sys.stderr)
+            else:
+                print("Error: pawprint requires a next cell", file=sys.stderr)
+        elif command == 'catnip':
+            # Power: current cell to the power of next cell
+            if self.pointer + 1 < len(self.memory):
+                try:
+                    self.memory[self.pointer] = self.memory[self.pointer] ** self.memory[self.pointer + 1]
+                except Exception as e:
+                    print(f"Error in catnip: {e}", file=sys.stderr)
+            else:
+                print("Error: catnip requires a next cell", file=sys.stderr)
         elif command.startswith('pawprint'):
             parts = command.split()
             if len(parts) == 2 and parts[1].lstrip('-').isdigit():
@@ -191,8 +257,28 @@ class MeowInterpreter:
                 self.output.append(match.group(1))
             else:
                 print("Warning: Invalid meowt syntax. Use 'meowt \"your text here\"'", file=sys.stderr)
+        elif command == 'snuggle':
+            # Copy value from next cell to current cell
+            if self.pointer + 1 < len(self.memory):
+                try:
+                    self.memory[self.pointer] = self.memory[self.pointer + 1]
+                except Exception as e:
+                    print(f"Error in snuggle: {e}", file=sys.stderr)
+            else:
+                print("Error: snuggle requires a next cell", file=sys.stderr)
+        elif command == 'mewmew':
+            # Take user input and store in next cell
+            if self.pointer + 1 < len(self.memory):
+                try:
+                    user_input = input('mewmew? ')
+                    self.memory[self.pointer + 1] = int(user_input)
+                except Exception:
+                    print("Error: Invalid input for 'mewmew', setting next cell to 0", file=sys.stderr)
+                    self.memory[self.pointer + 1] = 0
+            else:
+                print("Error: mewmew requires a next cell", file=sys.stderr)
         else:
-            print(f"Warning: Unknown command '{command}' ignored", file=sys.stderr)
+            print(f"Syntax Error: Unknown or malformed command '{command}' ignored", file=sys.stderr)
     
     def run(self, source_code: str) -> str:
         """Run a .meow program and return the output"""

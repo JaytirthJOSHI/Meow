@@ -10,7 +10,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="meowlang",
-    version="0.0.2",
+    version="0.0.3",
     author="Jay Joshi",
     author_email="jay@joshi1.com",
     description="A feline-friendly esoteric programming language",
@@ -39,7 +39,7 @@ setup(
             "meow=meow_interpreter:main",
         ],
     },
-    keywords="esolang programming language cat meow",
+    keywords="esolang programming language cat meow inline-comments puffup shrinktail catnap scaredycat hairball pawprint hissfit",
     project_urls={
         "Bug Reports": "https://github.com/jaytirthjoshi/meow/issues",
         "Source": "https://github.com/jaytirthjoshi/meow",

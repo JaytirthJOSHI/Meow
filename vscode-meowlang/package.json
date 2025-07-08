@@ -1,0 +1,28 @@
+{
+  "name": "meowlang-syntax",
+  "displayName": "MeowLang Syntax Highlighting",
+  "description": "Syntax highlighting for MeowLang (.meow) files",
+  "version": "0.0.1",
+  "publisher": "jaytirthjoshi",
+  "engines": {
+    "vscode": "^1.50.0"
+  },
+  "categories": ["Programming Languages"],
+  "contributes": {
+    "languages": [
+      {
+        "id": "meowlang",
+        "aliases": ["MeowLang", "meow"],
+        "extensions": [".meow"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "meowlang",
+        "scopeName": "source.meow",
+        "path": "./meow.tmLanguage.json"
+      }
+    ]
+  }
+}

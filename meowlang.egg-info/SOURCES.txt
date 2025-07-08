@@ -1,0 +1,8 @@
+LICENSE
+README.md
+setup.py
+meowlang.egg-info/PKG-INFO
+meowlang.egg-info/SOURCES.txt
+meowlang.egg-info/dependency_links.txt
+meowlang.egg-info/entry_points.txt
+meowlang.egg-info/top_level.txt
