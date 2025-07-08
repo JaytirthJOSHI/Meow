@@ -10,13 +10,13 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="meowlang",
-    version="0.0.1",
+    version="0.0.2",
     author="Jay Joshi",
     author_email="jay@joshi1.com",
     description="A feline-friendly esoteric programming language",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/meow",
+    url="https://github.com/jaytirthjoshi/meow",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 4 - Beta",
@@ -41,8 +41,8 @@ setup(
     },
     keywords="esolang programming language cat meow",
     project_urls={
-        "Bug Reports": "https://github.com/yourusername/meow/issues",
-        "Source": "https://github.com/yourusername/meow",
-        "Documentation": "https://github.com/yourusername/meow#readme",
+        "Bug Reports": "https://github.com/jaytirthjoshi/meow/issues",
+        "Source": "https://github.com/jaytirthjoshi/meow",
+        "Documentation": "https://github.com/jaytirthjoshi/meow#readme",
     },
 )

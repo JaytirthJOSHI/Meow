@@ -1,3 +1,42 @@
+Metadata-Version: 2.4
+Name: meowlang
+Version: 0.0.1
+Summary: A feline-friendly esoteric programming language
+Home-page: https://github.com/jaytirthjoshi/meow
+Author: Jay Joshi
+Author-email: jay@joshi1.com
+Project-URL: Bug Reports, https://github.com/jaytirthjoshi/meow/issues
+Project-URL: Source, https://github.com/jaytirthjoshi/meow
+Project-URL: Documentation, https://github.com/jaytirthjoshi/meow#readme
+Keywords: esolang programming language cat meow
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Software Development :: Interpreters
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-python
+Dynamic: summary
+
 # .meow — The Feline-Friendly Esoteric Programming Language
 
 [![Python](https://img.shields.io/badge/Python-3.7+-blue.svg)](https://python.org)
