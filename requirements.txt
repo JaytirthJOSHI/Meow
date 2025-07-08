@@ -1,0 +1,4 @@
+# Optional dependencies for development
+pytest>=6.0.0  # For running tests
+black>=21.0.0  # For code formatting
+flake8>=3.8.0  # For linting
