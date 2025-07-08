@@ -12,7 +12,8 @@ from typing import List, Dict, Any
 
 class MeowInterpreter:
     def __init__(self):
-        self.memory = 0
+        self.memory = [0]  # Memory tape
+        self.pointer = 0   # Current cell pointer
         self.output = []
         self.loop_stack = []
         self.program_counter = 0
@@ -20,7 +21,8 @@ class MeowInterpreter:
         
     def reset(self):
         """Reset the interpreter state"""
-        self.memory = 0
+        self.memory = [0]
+        self.pointer = 0
         self.output = []
         self.loop_stack = []
         self.program_counter = 0
@@ -33,37 +35,51 @@ class MeowInterpreter:
         
         for line in lines:
             line = line.strip()
-            if not line or line.startswith('🐾'):
+            if not line:
                 continue
-            
-            # Remove emoji comments
-            clean_line = re.sub(r'🐾.*🐾', '', line).strip()
-            if clean_line:
-                commands.append(clean_line)
+            # Remove everything after 🐾 (inline or full-line comment)
+            if '🐾' in line:
+                line = line.split('🐾', 1)[0].strip()
+            if line:
+                commands.append(line)
         
         return commands
     
     def execute_command(self, command: str):
         """Execute a single .meow command"""
         if command == 'meow':
-            self.memory += 1
+            self.memory[self.pointer] += 1
         elif command == 'hiss':
-            self.memory -= 1
+            self.memory[self.pointer] -= 1
         elif command == 'purr':
-            self.output.append(str(self.memory))
+            self.output.append(str(self.memory[self.pointer]))
         elif command == 'nap':
             pass  # No-op
         elif command == 'scratch':
-            self.memory = 0
+            self.memory[self.pointer] = 0
         elif command == 'lick':
-            self.memory *= 2
+            self.memory[self.pointer] *= 2
+        elif command == 'stretch':
+            self.memory[self.pointer] = abs(self.memory[self.pointer])
         elif command == 'zoomies':
-            self.memory = self.memory ** 2
+            self.memory[self.pointer] = self.memory[self.pointer] ** 2
+        elif command == 'left':
+            if self.pointer > 0:
+                self.pointer -= 1
+            else:
+                self.memory.insert(0, 0)
+                # pointer stays at 0
+        elif command == 'right':
+            self.pointer += 1
+            if self.pointer == len(self.memory):
+                self.memory.append(0)
+        elif command == 'groom':
+            self.memory.sort()
         elif command == 'yowl':
             self.loop_stack.append(self.program_counter)
         elif command == 'paw':
             if self.loop_stack:
-                if self.memory != 0:
+                if self.memory[self.pointer] != 0:
                     # Jump back to start of loop
                     self.program_counter = self.loop_stack[-1] - 1
                 else:
@@ -71,19 +87,29 @@ class MeowInterpreter:
                     self.loop_stack.pop()
         elif command == 'sleep':
             # Sleep for memory value milliseconds
-            sleep_time = self.memory / 1000.0  # Convert to seconds
+            sleep_time = self.memory[self.pointer] / 1000.0  # Convert to seconds
             if sleep_time > 0:
                 time.sleep(sleep_time)
-        elif command == 'chase':
-            # Set memory to a random integer between 0 and 9
-            self.memory = random.randint(0, 9)
+        elif command.startswith('chase'):
+            parts = command.split()
+            if len(parts) == 1:
+                # No arguments: default 0-9
+                self.memory[self.pointer] = random.randint(0, 9)
+            elif len(parts) == 3 and parts[1].lstrip('-').isdigit() and parts[2].lstrip('-').isdigit():
+                min_val = int(parts[1])
+                max_val = int(parts[2])
+                if min_val > max_val:
+                    min_val, max_val = max_val, min_val
+                self.memory[self.pointer] = random.randint(min_val, max_val)
+            else:
+                print("Warning: Invalid chase syntax. Use 'chase' or 'chase <min> <max>'", file=sys.stderr)
         elif command == 'mew':
             try:
                 user_input = input('mew? ')
-                self.memory = int(user_input)
+                self.memory[self.pointer] = int(user_input)
             except Exception:
                 print("Warning: Invalid input for 'mew', setting memory to 0", file=sys.stderr)
-                self.memory = 0
+                self.memory[self.pointer] = 0
         elif command.startswith('pounce'):
             parts = command.split()
             if len(parts) == 2 and parts[1].isdigit():
@@ -95,6 +121,76 @@ class MeowInterpreter:
                     print(f"Warning: pounce to invalid line {line_num}", file=sys.stderr)
             else:
                 print("Warning: Invalid pounce syntax. Use 'pounce <line_number>'", file=sys.stderr)
+        elif command == 'hairball':
+            self.memory[self.pointer] //= 2
+        elif command.startswith('pawprint'):
+            parts = command.split()
+            if len(parts) == 2 and parts[1].lstrip('-').isdigit():
+                n = int(parts[1])
+                if n != 0:
+                    self.memory[self.pointer] %= n
+                else:
+                    print("Warning: pawprint by zero is not allowed", file=sys.stderr)
+            else:
+                print("Warning: Invalid pawprint syntax. Use 'pawprint <n>'", file=sys.stderr)
+        elif command == 'hissfit':
+            self.memory[self.pointer] = -self.memory[self.pointer]
+        elif command.startswith('catnap'):
+            parts = command.split()
+            if len(parts) == 2 and parts[1].isdigit():
+                line_num = int(parts[1])
+                if self.memory[self.pointer] == 0:
+                    if 1 <= line_num <= len(self.commands):
+                        self.program_counter = line_num - 1
+                        return
+                    else:
+                        print(f"Warning: catnap to invalid line {line_num}", file=sys.stderr)
+            else:
+                print("Warning: Invalid catnap syntax. Use 'catnap <line_number>'", file=sys.stderr)
+        elif command.startswith('scaredycat'):
+            parts = command.split()
+            if len(parts) == 2 and parts[1].isdigit():
+                line_num = int(parts[1])
+                if self.memory[self.pointer] < 0:
+                    if 1 <= line_num <= len(self.commands):
+                        self.program_counter = line_num - 1
+                        return
+                    else:
+                        print(f"Warning: scaredycat to invalid line {line_num}", file=sys.stderr)
+            else:
+                print("Warning: Invalid scaredycat syntax. Use 'scaredycat <line_number>'", file=sys.stderr)
+        elif command.startswith('puffup'):
+            parts = command.split()
+            if len(parts) == 2 and parts[1].isdigit():
+                n = int(parts[1])
+                if n > 0:
+                    self.memory.extend([0] * n)
+                else:
+                    print("Warning: puffup requires a positive number of cells", file=sys.stderr)
+            else:
+                print("Warning: Invalid puffup syntax. Use 'puffup <n>'", file=sys.stderr)
+        elif command.startswith('shrinktail'):
+            parts = command.split()
+            if len(parts) == 2 and parts[1].isdigit():
+                n = int(parts[1])
+                if n > 0:
+                    if len(self.memory) - n < 1:
+                        print("Warning: shrinktail would remove all cells; at least one cell must remain", file=sys.stderr)
+                    else:
+                        self.memory = self.memory[:len(self.memory)-n]
+                        if self.pointer >= len(self.memory):
+                            self.pointer = len(self.memory) - 1
+                else:
+                    print("Warning: shrinktail requires a positive number of cells", file=sys.stderr)
+            else:
+                print("Warning: Invalid shrinktail syntax. Use 'shrinktail <n>'", file=sys.stderr)
+        elif command.startswith('meowt'):
+            # Custom text output: meowt "your text here"
+            match = re.match(r'meowt\s+"(.*)"', command)
+            if match:
+                self.output.append(match.group(1))
+            else:
+                print("Warning: Invalid meowt syntax. Use 'meowt \"your text here\"'", file=sys.stderr)
         else:
             print(f"Warning: Unknown command '{command}' ignored", file=sys.stderr)
     
