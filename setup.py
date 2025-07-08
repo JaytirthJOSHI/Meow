@@ -9,7 +9,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="meowlang :)",
+    name="meowlang",
     version="1.0.0",
     author="Jay Joshi",
     author_email="jay@joshi1.com",
