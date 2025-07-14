@@ -4,813 +4,162 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MeowLang - A Feline-Friendly Programming Language</title>
-    
-    <!-- Meta tags -->
     <meta name="description" content="MeowLang is a feline-friendly esoteric programming language where every command sounds like a cat!">
-    <meta name="keywords" content="programming language, esolang, cat, meow, educational, interpreter">
-    <meta name="author" content="Jaytirth Joshi">
-    
-    <!-- CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        /* Custom styles for MeowLang website */
-        
-        /* Typography */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-        }
-        
-        /* Code editor styling */
-        #codeEditor {
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-            line-height: 1.5;
-            tab-size: 4;
-        }
-        
-        /* Output container */
-        .output-container {
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-            line-height: 1.5;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        
-        /* Memory visualizer */
-        .memory-visualizer {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            padding: 8px;
-            background: #f8f9fa;
-            border-radius: 6px;
-            min-height: 60px;
-            align-items: center;
-        }
-        
-        .memory-cell {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border: 2px solid #e9ecef;
-            border-radius: 6px;
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-            font-size: 12px;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-        
-        .memory-cell.current {
-            border-color: #6f42c1;
-            background-color: #f3e8ff;
-            color: #6f42c1;
-        }
-        
-        .memory-cell.non-zero {
-            background-color: #e3f2fd;
-            color: #1976d2;
-            border-color: #bbdefb;
-        }
-        
-        .memory-cell.zero {
-            background-color: #f5f5f5;
-            color: #9e9e9e;
-            border-color: #e0e0e0;
-        }
-        
-        /* Button hover effects */
-        button {
-            transition: all 0.2s ease;
-        }
-        
-        button:hover {
-            transform: translateY(-1px);
-        }
-        
-        /* Code blocks */
-        pre {
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-            line-height: 1.5;
-        }
-        
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        /* Focus styles */
-        button:focus,
-        textarea:focus {
-            outline: 2px solid #6f42c1;
-            outline-offset: 2px;
-        }
-        
-        /* Modal animations */
-        #examplesModal {
-            transition: opacity 0.3s ease;
-        }
-        
-        #examplesModal.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        /* Example cards */
-        .example-card {
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 16px;
-            background: white;
-            transition: all 0.2s ease;
-        }
-        
-        .example-card:hover {
-            border-color: #6f42c1;
-            box-shadow: 0 4px 12px rgba(111, 66, 193, 0.1);
-        }
-        
-        .example-card h3 {
-            color: #6f42c1;
-            margin-bottom: 8px;
-        }
-        
-        .example-card pre {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 6px;
-            margin: 12px 0;
-            font-size: 13px;
-            overflow-x: auto;
-        }
-        
-        /* Status indicators */
-        .status-success {
-            color: #28a745;
-        }
-        
-        .status-error {
-            color: #dc3545;
-        }
-        
-        .status-info {
-            color: #17a2b8;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .memory-cell {
-                width: 35px;
-                height: 35px;
-                font-size: 11px;
-            }
-            
-            #codeEditor {
-                height: 300px;
-            }
-        }
-        
-        /* Loading states */
-        .loading {
-            opacity: 0.6;
-            pointer-events: none;
-        }
-        
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-white text-gray-900 min-h-screen">
+<body>
     <!-- Navigation -->
-    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="#" class="flex items-center space-x-2 text-xl font-bold text-gray-900">
-                        <i class="fas fa-cat text-purple-600"></i>
-                        <span>MeowLang</span>
-                    </a>
-                </div>
-                
-                <div class="flex items-center space-x-8">
-                    <a href="#playground" class="text-gray-600 hover:text-gray-900 transition-colors">Playground</a>
-                    <a href="https://github.com/jaytirthjoshi/meow" target="_blank" class="text-gray-600 hover:text-gray-900 transition-colors">
-                        <i class="fab fa-github"></i>
-                    </a>
-                </div>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>🐱 MeowLang</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link active">Home</a></li>
+                <li><a href="playground.html" class="nav-link">Playground</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="text-center py-20 bg-gradient-to-b from-purple-50 to-white">
-        <div class="max-w-4xl mx-auto px-4">
-            <h1 class="text-5xl md:text-6xl font-bold mb-6 text-gray-900">
-                <i class="fas fa-cat mr-4 text-purple-600"></i>MeowLang
-            </h1>
-            <p class="text-xl md:text-2xl text-gray-600 mb-8">
-                A feline-friendly esoteric programming language
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#playground" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-lg transition-colors">
-                    <i class="fas fa-play mr-2"></i>Try It Now
-                </a>
-                <a href="https://pypi.org/project/meowlang/" target="_blank" class="bg-gray-100 hover:bg-gray-200 text-gray-900 font-bold py-3 px-8 rounded-lg transition-colors">
-                    <i class="fab fa-python mr-2"></i>Install with pip
-                </a>
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Welcome to MeowLang</h1>
+                <p class="hero-subtitle">A feline-friendly esoteric programming language where every command sounds like a cat! 🐱</p>
+                <div class="hero-buttons">
+                    <a href="playground.html" class="btn btn-primary">Try the Playground</a>
+                    <a href="#features" class="btn btn-secondary">Learn More</a>
+                </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Quick Info -->
-    <section class="py-16 bg-white">
-        <div class="max-w-4xl mx-auto px-4">
-            <div class="grid md:grid-cols-3 gap-8 text-center">
-                <div>
-                    <div class="text-purple-600 text-3xl mb-4">
-                        <i class="fas fa-graduation-cap"></i>
+            <div class="hero-image">
+                <div class="code-preview">
+                    <div class="code-header">
+                        <span class="code-dot red"></span>
+                        <span class="code-dot yellow"></span>
+                        <span class="code-dot green"></span>
+                        <span class="code-title">example.meow</span>
                     </div>
-                    <h3 class="text-lg font-bold mb-2">Educational</h3>
-                    <p class="text-gray-600">Perfect for learning programming concepts</p>
-                </div>
-                <div>
-                    <div class="text-purple-600 text-3xl mb-4">
-                        <i class="fas fa-cat"></i>
-                    </div>
-                    <h3 class="text-lg font-bold mb-2">Feline-Friendly</h3>
-                    <p class="text-gray-600">Every command sounds like a cat!</p>
-                </div>
-                <div>
-                    <div class="text-purple-600 text-3xl mb-4">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3 class="text-lg font-bold mb-2">Esoteric</h3>
-                    <p class="text-gray-600">Based on Brainfuck with a cat twist</p>
+                    <pre class="code-content"><code>meow meow meow
+purr purr purr
+meow meow meow
+purr purr purr
+meow meow meow</code></pre>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Playground Section -->
-    <section id="playground" class="py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold mb-4 text-gray-900">Playground</h2>
-                <p class="text-xl text-gray-600">Write and run MeowLang code in your browser</p>
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Why MeowLang?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3>Educational</h3>
+                    <p>Perfect for learning programming concepts in a fun, approachable way.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🐱</div>
+                    <h3>Feline-Friendly</h3>
+                    <p>Every command is inspired by cat sounds - meow, purr, hiss, and more!</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Fast & Lightweight</h3>
+                    <p>Quick execution with minimal resource usage.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Web-Ready</h3>
+                    <p>Run directly in your browser with our interactive playground.</p>
+                </div>
             </div>
+        </div>
+    </section>
 
-            <div class="grid lg:grid-cols-2 gap-8">
-                <!-- Code Editor -->
-                <div class="bg-white rounded-lg border border-gray-200 shadow-sm">
-                    <div class="p-4 border-b border-gray-200">
-                        <h3 class="text-lg font-bold mb-2 text-gray-900">Code Editor</h3>
-                        <div class="flex justify-between items-center">
-                            <div class="flex space-x-2">
-                                <button id="runBtn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition-colors">
-                                    <i class="fas fa-play mr-2"></i>Run
-                                </button>
-                                <button id="clearBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-900 px-4 py-2 rounded transition-colors">
-                                    <i class="fas fa-trash mr-2"></i>Clear
-                                </button>
-                                <button id="examplesBtn" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded transition-colors">
-                                    <i class="fas fa-list mr-2"></i>Examples
-                                </button>
-                            </div>
-                            <div class="text-sm text-gray-500">
-                                <span id="lineCount">0 lines</span>
-                            </div>
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">About MeowLang</h2>
+                    <p>MeowLang is an esoteric programming language designed to make programming fun and accessible. Inspired by Brainfuck but with a feline twist, every command in MeowLang corresponds to a cat sound.</p>
+                    <p>The language features a simple instruction set that can create complex programs, making it perfect for educational purposes and programming enthusiasts.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <span class="stat-number">5</span>
+                            <span class="stat-label">Commands</span>
                         </div>
-                    </div>
-                    <div class="p-4">
-                        <textarea id="codeEditor" class="w-full h-80 bg-gray-50 text-gray-900 p-4 rounded border border-gray-200 font-mono text-sm resize-none focus:outline-none focus:border-purple-500" placeholder="🐾 Write your MeowLang code here...
-meow meow meow meow meow meow meow meow meow meow 🐾 Set cell 0 to 10
-yowl 🐾 Start loop
-    purr 🐾 Output current cell
-    hiss 🐾 Decrement cell
-paw 🐾 End loop when cell reaches 0"></textarea>
+                        <div class="stat">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">Cat Sounds</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">∞</span>
+                            <span class="stat-label">Possibilities</span>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Output and Memory -->
-                <div class="space-y-6">
-                    <!-- Output -->
-                    <div class="bg-white rounded-lg border border-gray-200 shadow-sm">
-                        <div class="p-4 border-b border-gray-200">
-                            <h3 class="text-lg font-bold mb-2 text-gray-900">Output</h3>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-500">Program output will appear here</span>
-                                <button id="clearOutputBtn" class="text-gray-400 hover:text-gray-600 text-sm">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <div id="output" class="output-container bg-gray-50 text-gray-900 p-4 rounded border border-gray-200 font-mono text-sm whitespace-pre-wrap min-h-[100px]"></div>
-                        </div>
-                    </div>
-
-                    <!-- Memory Visualization -->
-                    <div class="bg-white rounded-lg border border-gray-200 shadow-sm">
-                        <div class="p-4 border-b border-gray-200">
-                            <h3 class="text-lg font-bold mb-2 text-gray-900">Memory State</h3>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-500">Current pointer: <span id="pointerPos">0</span></span>
-                                <span class="text-sm text-gray-500">Memory size: <span id="memorySize">1</span></span>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <div id="memoryVisualizer" class="memory-visualizer">
-                                <div class="memory-cell current non-zero">0</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Status -->
-                    <div class="bg-white rounded-lg border border-gray-200 shadow-sm">
-                        <div class="p-4 border-b border-gray-200">
-                            <h3 class="text-lg font-bold mb-2 text-gray-900">Status</h3>
-                        </div>
-                        <div class="p-4">
-                            <div id="status" class="text-sm text-gray-600">
-                                Ready to run code
-                            </div>
-                        </div>
+                <div class="about-image">
+                    <div class="cat-illustration">
+                        <div class="cat-body">🐱</div>
+                        <div class="cat-thought">meow meow meow</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Quick Start -->
-    <section class="py-16 bg-white">
-        <div class="max-w-4xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-8 text-gray-900">Quick Start</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div>
-                    <h3 class="text-xl font-bold mb-4 text-purple-600">Installation</h3>
-                    <pre class="bg-gray-50 p-4 rounded-lg overflow-x-auto border border-gray-200"><code class="language-bash">pip install meowlang</code></pre>
-                    
-                    <h3 class="text-xl font-bold mb-4 mt-6 text-purple-600">Command Line</h3>
-                    <pre class="bg-gray-50 p-4 rounded-lg overflow-x-auto border border-gray-200"><code class="language-bash">meow hello.meow
-meow -c "meow meow meow purr"</code></pre>
-                </div>
-                <div>
-                    <h3 class="text-xl font-bold mb-4 text-purple-600">Core Commands</h3>
-                    <div class="space-y-2 text-sm">
-                        <div><strong>meow</strong> - Increment current cell</div>
-                        <div><strong>hiss</strong> - Decrement current cell</div>
-                        <div><strong>purr</strong> - Output current cell</div>
-                        <div><strong>left/right</strong> - Move pointer</div>
-                        <div><strong>yowl/paw</strong> - Loop control</div>
-                        <div><strong>🐾</strong> - Comments</div>
-                    </div>
-                </div>
-            </div>
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Start Coding?</h2>
+            <p>Jump into our interactive playground and start writing your first MeowLang program!</p>
+            <a href="playground.html" class="btn btn-primary btn-large">Launch Playground</a>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-50 border-t border-gray-200 py-8">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <div class="flex items-center justify-center space-x-2 text-gray-600 mb-4">
-                <i class="fas fa-cat text-purple-600"></i>
-                <span>Made with ❤️ by Jaytirth Joshi</span>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>🐱 MeowLang</h3>
+                    <p>A feline-friendly programming language</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="playground.html">Playground</a></li>
+                        <li><a href="#features">Features</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="https://github.com">GitHub</a></li>
+                        <li><a href="#docs">Documentation</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="flex justify-center space-x-6">
-                <a href="https://github.com/jaytirthjoshi/meow" target="_blank" class="text-gray-400 hover:text-gray-600 transition-colors">
-                    <i class="fab fa-github text-xl"></i>
-                </a>
-                <a href="https://pypi.org/project/meowlang/" target="_blank" class="text-gray-400 hover:text-gray-600 transition-colors">
-                    <i class="fab fa-python text-xl"></i>
-                </a>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MeowLang. Made with ❤️ and 🐱</p>
             </div>
         </div>
     </footer>
 
-    <!-- Examples Modal -->
-    <div id="examplesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-lg max-w-4xl w-full max-h-screen overflow-y-auto">
-                <div class="p-6 border-b border-gray-200">
-                    <div class="flex justify-between items-center">
-                        <h2 class="text-2xl font-bold text-gray-900">Example Programs</h2>
-                        <button id="closeExamplesBtn" class="text-gray-400 hover:text-gray-600">
-                            <i class="fas fa-times text-xl"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="p-6">
-                    <div id="examplesList" class="space-y-4">
-                        <!-- Examples will be loaded here -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- JavaScript -->
-    <script>
-        // Pure JavaScript MeowLang Interpreter for GitHub Pages
-        class MeowLangInterpreter {
-            constructor() {
-                this.memory = new Array(30000).fill(0);
-                this.pointer = 0;
-                this.output = '';
-                this.input = '';
-                this.inputIndex = 0;
-                this.loopStack = [];
-                this.commands = {
-                    'meow': () => this.memory[this.pointer]++,
-                    'hiss': () => this.memory[this.pointer]--,
-                    'purr': () => this.output += String.fromCharCode(this.memory[this.pointer]),
-                    'mew': () => {
-                        if (this.inputIndex < this.input.length) {
-                            this.memory[this.pointer] = this.input.charCodeAt(this.inputIndex++);
-                        }
-                    },
-                    'left': () => this.pointer = (this.pointer - 1 + this.memory.length) % this.memory.length,
-                    'right': () => this.pointer = (this.pointer + 1) % this.memory.length,
-                    'yowl': () => {
-                        if (this.memory[this.pointer] !== 0) {
-                            this.loopStack.push(this.currentIndex);
-                        } else {
-                            // Skip to matching paw
-                            let depth = 1;
-                            while (depth > 0 && this.currentIndex < this.tokens.length) {
-                                this.currentIndex++;
-                                if (this.tokens[this.currentIndex] === 'yowl') depth++;
-                                if (this.tokens[this.currentIndex] === 'paw') depth--;
-                            }
-                        }
-                    },
-                    'paw': () => {
-                        if (this.loopStack.length > 0) {
-                            this.currentIndex = this.loopStack.pop() - 1;
-                        }
-                    },
-                    'scratch': () => this.memory[this.pointer] = 0,
-                    'lick': () => this.memory[this.pointer] *= 2,
-                    'stretch': () => this.memory[this.pointer] = Math.abs(this.memory[this.pointer]),
-                    'zoomies': () => this.memory[this.pointer] = this.memory[this.pointer] * this.memory[this.pointer],
-                    'groom': () => {
-                        // Simple bubble sort for memory cells
-                        for (let i = 0; i < this.memory.length - 1; i++) {
-                            for (let j = 0; j < this.memory.length - i - 1; j++) {
-                                if (this.memory[j] > this.memory[j + 1]) {
-                                    [this.memory[j], this.memory[j + 1]] = [this.memory[j + 1], this.memory[j]];
-                                }
-                            }
-                        }
-                    },
-                    'sleep': () => {
-                        // Simulate sleep by doing nothing for a bit
-                        const start = Date.now();
-                        while (Date.now() - start < this.memory[this.pointer] * 10) {
-                            // Busy wait
-                        }
-                    },
-                    'chase': () => this.memory[this.pointer] = Math.floor(Math.random() * 10),
-                    'knead': () => {
-                        const nextPointer = (this.pointer + 1) % this.memory.length;
-                        this.memory[this.pointer] += this.memory[nextPointer];
-                    }
-                };
-            }
-
-            parse(code) {
-                // Remove comments and split into tokens
-                const lines = code.split('\n');
-                const tokens = [];
-                
-                for (const line of lines) {
-                    const commentIndex = line.indexOf('🐾');
-                    const codePart = commentIndex >= 0 ? line.substring(0, commentIndex) : line;
-                    const words = codePart.trim().split(/\s+/);
-                    tokens.push(...words.filter(word => word.length > 0));
-                }
-                
-                return tokens;
-            }
-
-            execute(code, input = '') {
-                this.memory = new Array(30000).fill(0);
-                this.pointer = 0;
-                this.output = '';
-                this.input = input;
-                this.inputIndex = 0;
-                this.loopStack = [];
-                this.tokens = this.parse(code);
-                this.currentIndex = 0;
-
-                const startTime = Date.now();
-                const maxExecutionTime = 5000; // 5 seconds max
-
-                try {
-                    while (this.currentIndex < this.tokens.length) {
-                        if (Date.now() - startTime > maxExecutionTime) {
-                            throw new Error('Execution timeout - possible infinite loop');
-                        }
-
-                        const token = this.tokens[this.currentIndex];
-                        
-                        if (this.commands[token]) {
-                            this.commands[token]();
-                        }
-                        // Ignore unknown tokens (treat as comments)
-                        
-                        this.currentIndex++;
-                    }
-                    
-                    return {
-                        output: this.output,
-                        memory: [...this.memory],
-                        pointer: this.pointer,
-                        success: true
-                    };
-                } catch (error) {
-                    return {
-                        output: this.output,
-                        memory: [...this.memory],
-                        pointer: this.pointer,
-                        error: error.message,
-                        success: false
-                    };
-                }
-            }
-
-            getMemoryState() {
-                const nonZeroCells = [];
-                for (let i = 0; i < this.memory.length; i++) {
-                    if (this.memory[i] !== 0) {
-                        nonZeroCells.push({ index: i, value: this.memory[i] });
-                    }
-                }
-                return {
-                    pointer: this.pointer,
-                    memory: this.memory,
-                    nonZeroCells: nonZeroCells
-                };
-            }
-        }
-
-        // Global instance
-        window.meowInterpreter = new MeowLangInterpreter();
-
-        // Playground functionality for GitHub Pages
-        document.addEventListener('DOMContentLoaded', function() {
-            const codeEditor = document.getElementById('codeEditor');
-            const output = document.getElementById('output');
-            const memoryVisualizer = document.getElementById('memoryVisualizer');
-            const pointerPos = document.getElementById('pointerPos');
-            const memorySize = document.getElementById('memorySize');
-            const status = document.getElementById('status');
-            const lineCount = document.getElementById('lineCount');
-            const runBtn = document.getElementById('runBtn');
-            const clearBtn = document.getElementById('clearBtn');
-            const examplesBtn = document.getElementById('examplesBtn');
-            const clearOutputBtn = document.getElementById('clearOutputBtn');
-            const examplesModal = document.getElementById('examplesModal');
-            const closeExamplesBtn = document.getElementById('closeExamplesBtn');
-            const examplesList = document.getElementById('examplesList');
-
-            // Examples data
-            const examples = [
-                {
-                    name: "Hello World",
-                    description: "Simple countdown that prints numbers",
-                    code: `🐾 Hello World - Countdown from 5
-meow meow meow meow meow 🐾 Set to 5
-yowl 🐾 Start loop
-    purr 🐾 Output current number
-    hiss 🐾 Decrement
-paw 🐾 End loop when reaches 0`
-                },
-                {
-                    name: "Fibonacci Sequence",
-                    description: "Generate first 10 Fibonacci numbers",
-                    code: `🐾 Fibonacci Sequence
-meow meow meow meow meow meow meow meow meow meow 🐾 Set cell 0 to 10 (counter)
-right 🐾 Move to cell 1
-meow 🐾 Set cell 1 to 1 (first Fibonacci number)
-right 🐾 Move to cell 2
-meow 🐾 Set cell 2 to 1 (second Fibonacci number)
-left left 🐾 Back to cell 0
-yowl 🐾 Start loop
-    right right 🐾 Move to cell 2
-    knead 🐾 Add cells 1 and 2, store in cell 2
-    left 🐾 Move to cell 1
-    knead 🐾 Add cells 0 and 1, store in cell 1
-    left 🐾 Move to cell 0
-    hiss 🐾 Decrement counter
-paw 🐾 End loop
-right right 🐾 Move to cell 2
-purr 🐾 Output final Fibonacci number`
-                },
-                {
-                    name: "Simple Calculator",
-                    description: "Add two numbers (5 + 3)",
-                    code: `🐾 Simple Calculator - Add 5 + 3
-meow meow meow meow meow 🐾 Set first number to 5
-right 🐾 Move to next cell
-meow meow meow 🐾 Set second number to 3
-left 🐾 Back to first cell
-knead 🐾 Add the two numbers
-right 🐾 Move to result cell
-purr 🐾 Output result (should be 8)`
-                },
-                {
-                    name: "Random Number Generator",
-                    description: "Generate a random number between 0-9",
-                    code: `🐾 Random Number Generator
-chase 🐾 Generate random number 0-9
-purr 🐾 Output the random number`
-                },
-                {
-                    name: "Memory Operations",
-                    description: "Demonstrate various memory operations",
-                    code: `🐾 Memory Operations Demo
-meow meow meow meow meow 🐾 Set to 5
-lick 🐾 Multiply by 2 (now 10)
-purr 🐾 Output 10
-hiss hiss hiss 🐾 Subtract 3 (now 7)
-purr 🐾 Output 7
-stretch 🐾 Absolute value (still 7)
-purr 🐾 Output 7
-hiss hiss hiss hiss hiss hiss hiss hiss 🐾 Subtract 8 (now -1)
-stretch 🐾 Absolute value (now 1)
-purr 🐾 Output 1`
-                }
-            ];
-
-            // Update line count
-            function updateLineCount() {
-                const lines = codeEditor.value.split('\n').length;
-                lineCount.textContent = `${lines} line${lines !== 1 ? 's' : ''}`;
-            }
-
-            // Update memory visualization
-            function updateMemoryVisualization(memoryState) {
-                memoryVisualizer.innerHTML = '';
-                pointerPos.textContent = memoryState.pointer;
-                
-                // Show first 20 cells or all non-zero cells
-                const cellsToShow = Math.max(20, memoryState.nonZeroCells.length + 5);
-                
-                for (let i = 0; i < cellsToShow; i++) {
-                    const cell = document.createElement('div');
-                    cell.className = 'memory-cell';
-                    
-                    if (i === memoryState.pointer) {
-                        cell.classList.add('current');
-                    }
-                    
-                    if (memoryState.memory[i] !== 0) {
-                        cell.classList.add('non-zero');
-                    } else {
-                        cell.classList.add('zero');
-                    }
-                    
-                    cell.textContent = memoryState.memory[i];
-                    memoryVisualizer.appendChild(cell);
-                }
-                
-                memorySize.textContent = cellsToShow;
-            }
-
-            // Run code
-            function runCode() {
-                const code = codeEditor.value.trim();
-                if (!code) {
-                    status.textContent = 'No code to run';
-                    status.className = 'text-sm text-gray-600';
-                    return;
-                }
-
-                status.textContent = 'Running...';
-                status.className = 'text-sm text-gray-600';
-                runBtn.disabled = true;
-
-                // Use setTimeout to allow UI to update
-                setTimeout(() => {
-                    try {
-                        const result = window.meowInterpreter.execute(code);
-                        
-                        if (result.success) {
-                            output.textContent = result.output || '(no output)';
-                            updateMemoryVisualization(result);
-                            status.textContent = 'Execution completed successfully';
-                            status.className = 'text-sm status-success';
-                        } else {
-                            output.textContent = `Error: ${result.error}`;
-                            updateMemoryVisualization(result);
-                            status.textContent = 'Execution failed';
-                            status.className = 'text-sm status-error';
-                        }
-                    } catch (error) {
-                        output.textContent = `Error: ${error.message}`;
-                        status.textContent = 'Execution failed';
-                        status.className = 'text-sm status-error';
-                    }
-                    
-                    runBtn.disabled = false;
-                }, 10);
-            }
-
-            // Clear code editor
-            function clearCode() {
-                codeEditor.value = '';
-                updateLineCount();
-                status.textContent = 'Ready to run code';
-                status.className = 'text-sm text-gray-600';
-            }
-
-            // Clear output
-            function clearOutput() {
-                output.textContent = '';
-                status.textContent = 'Ready to run code';
-                status.className = 'text-sm text-gray-600';
-            }
-
-            // Load example
-            function loadExample(code) {
-                codeEditor.value = code;
-                updateLineCount();
-                status.textContent = 'Example loaded';
-                status.className = 'text-sm status-info';
-            }
-
-            // Show examples modal
-            function showExamples() {
-                examplesList.innerHTML = '';
-                
-                examples.forEach((example, index) => {
-                    const card = document.createElement('div');
-                    card.className = 'example-card';
-                    card.innerHTML = `
-                        <h3>${example.name}</h3>
-                        <p class="text-sm text-gray-600 mb-3">${example.description}</p>
-                        <pre><code>${example.code}</code></pre>
-                        <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded text-sm mt-3 transition-colors" onclick="loadExample(\`${example.code.replace(/`/g, '\\`')}\`)">
-                            Load Example
-                        </button>
-                    `;
-                    examplesList.appendChild(card);
-                });
-                
-                examplesModal.classList.remove('hidden');
-            }
-
-            // Hide examples modal
-            function hideExamples() {
-                examplesModal.classList.add('hidden');
-            }
-
-            // Event listeners
-            codeEditor.addEventListener('input', updateLineCount);
-            codeEditor.addEventListener('keydown', function(e) {
-                if (e.ctrlKey && e.key === 'Enter') {
-                    e.preventDefault();
-                    runCode();
-                }
-            });
-
-            runBtn.addEventListener('click', runCode);
-            clearBtn.addEventListener('click', clearCode);
-            clearOutputBtn.addEventListener('click', clearOutput);
-            examplesBtn.addEventListener('click', showExamples);
-            closeExamplesBtn.addEventListener('click', hideExamples);
-
-            // Close modal when clicking outside
-            examplesModal.addEventListener('click', function(e) {
-                if (e.target === examplesModal) {
-                    hideExamples();
-                }
-            });
-
-            // Initialize
-            updateLineCount();
-            
-            // Load a default example
-            loadExample(examples[0].code);
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

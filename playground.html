@@ -1,30 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MeowLang Playground</title>
-  <style>
-    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f9f9fb; color: #222; margin: 0; padding: 0; }
-    .container { max-width: 700px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px #0001; padding: 32px; }
-    h1 { text-align: center; font-size: 2.2em; margin-bottom: 0.2em; }
-    textarea { width: 100%; min-height: 180px; font-size: 1.1em; font-family: 'Fira Mono', 'Consolas', monospace; border-radius: 8px; border: 1px solid #ccc; padding: 12px; margin-bottom: 16px; }
-    button { background: #ffb347; color: #222; border: none; border-radius: 8px; padding: 12px 28px; font-size: 1.1em; cursor: pointer; transition: background 0.2s; }
-    button:hover { background: #ff9800; }
-    .output { background: #222; color: #fff; border-radius: 8px; padding: 16px; min-height: 40px; margin-top: 18px; font-family: 'Fira Mono', 'Consolas', monospace; }
-    .footer { text-align: center; margin-top: 32px; color: #888; font-size: 0.95em; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeowLang Playground - Interactive Code Editor</title>
+    <meta name="description" content="Write and run MeowLang code in your browser with our interactive playground">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="playground.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <h1>MeowLang Playground 🐾</h1>
-    <textarea id="code" placeholder="Write your MeowLang code here..."></textarea>
-    <button onclick="runMeow()">Run</button>
-    <div class="output" id="output"></div>
-  </div>
-  <div class="footer">
-    <span>MeowLang Web Playground &copy; 2024</span>
-  </div>
-  <script src="playground.js"></script>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>🐱 MeowLang</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="playground.html" class="nav-link active">Playground</a></li>
+                <li><a href="index.html#features" class="nav-link">Features</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Playground Header -->
+    <section class="playground-header">
+        <div class="container">
+            <h1>🐱 MeowLang Playground</h1>
+            <p>Write and run MeowLang code in your browser. Experiment with the feline-friendly programming language!</p>
+        </div>
+    </section>
+
+    <!-- Main Playground -->
+    <section class="playground-main">
+        <div class="container">
+            <div class="playground-grid">
+                <!-- Code Editor Panel -->
+                <div class="editor-panel">
+                    <div class="panel-header">
+                        <h3>📝 Code Editor</h3>
+                        <div class="editor-controls">
+                            <button id="runBtn" class="btn btn-primary">
+                                <span class="btn-icon">▶️</span>
+                                Run Code
+                            </button>
+                            <button id="clearBtn" class="btn btn-secondary">
+                                <span class="btn-icon">🗑️</span>
+                                Clear
+                            </button>
+                            <button id="examplesBtn" class="btn btn-secondary">
+                                <span class="btn-icon">📚</span>
+                                Examples
+                            </button>
+                        </div>
+                    </div>
+                    <div class="editor-container">
+                        <textarea id="codeEditor" placeholder="🐾 Write your MeowLang code here...
+
+meow meow meow meow meow meow meow meow meow meow 🐾 Set cell 0 to 10
+yowl 🐾 Start loop
+    purr 🐾 Output current cell
+    hiss 🐾 Decrement cell
+paw 🐾 End loop when cell reaches 0"></textarea>
+                        <div class="editor-info">
+                            <span id="lineCount">0 lines</span>
+                            <span id="charCount">0 characters</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Output Panel -->
+                <div class="output-panel">
+                    <div class="panel-header">
+                        <h3>📤 Output</h3>
+                        <button id="clearOutputBtn" class="btn btn-small">
+                            <span class="btn-icon">🗑️</span>
+                            Clear
+                        </button>
+                    </div>
+                    <div class="output-container">
+                        <div id="output" class="output-content">
+                            <div class="output-placeholder">
+                                <span>🐱</span>
+                                <p>Program output will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Memory Visualization Panel -->
+                <div class="memory-panel">
+                    <div class="panel-header">
+                        <h3>🧠 Memory State</h3>
+                        <div class="memory-info">
+                            <span>Pointer: <span id="pointerPos">0</span></span>
+                            <span>Size: <span id="memorySize">1</span></span>
+                        </div>
+                    </div>
+                    <div class="memory-container">
+                        <div id="memoryVisualizer" class="memory-visualizer">
+                            <div class="memory-cell current">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status Panel -->
+                <div class="status-panel">
+                    <div class="panel-header">
+                        <h3>📊 Status</h3>
+                    </div>
+                    <div class="status-container">
+                        <div id="status" class="status-content">
+                            <span class="status-icon">✅</span>
+                            <span>Ready to run code</span>
+                        </div>
+                        <div id="executionTime" class="execution-time"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Examples Modal -->
+    <div id="examplesModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📚 Example Programs</h2>
+                <button id="closeExamplesBtn" class="modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="examplesList" class="examples-grid">
+                    <!-- Examples will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Section -->
+    <section class="help-section">
+        <div class="container">
+            <h2>🐾 MeowLang Commands</h2>
+            <div class="commands-grid">
+                <div class="command-card">
+                    <h3>meow</h3>
+                    <p>Increment the current memory cell</p>
+                    <code>meow meow meow</code>
+                </div>
+                <div class="command-card">
+                    <h3>hiss</h3>
+                    <p>Decrement the current memory cell</p>
+                    <code>hiss hiss</code>
+                </div>
+                <div class="command-card">
+                    <h3>purr</h3>
+                    <p>Output the current cell as ASCII character</p>
+                    <code>purr</code>
+                </div>
+                <div class="command-card">
+                    <h3>left/right</h3>
+                    <p>Move memory pointer left or right</p>
+                    <code>left right</code>
+                </div>
+                <div class="command-card">
+                    <h3>yowl/paw</h3>
+                    <p>Start/end a loop (while current cell != 0)</p>
+                    <code>yowl ... paw</code>
+                </div>
+                <div class="command-card">
+                    <h3>🐾</h3>
+                    <p>Comment (everything after is ignored)</p>
+                    <code>🐾 This is a comment</code>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>🐱 MeowLang</h3>
+                    <p>A feline-friendly programming language</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="playground.html">Playground</a></li>
+                        <li><a href="index.html#features">Features</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="https://github.com">GitHub</a></li>
+                        <li><a href="#docs">Documentation</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MeowLang. Made with ❤️ and 🐱</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="playground.js"></script>
 </body>
 </html>
