@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MeowLang Playground</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f9f9fb; color: #222; margin: 0; padding: 0; }
+    .container { max-width: 700px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px #0001; padding: 32px; }
+    h1 { text-align: center; font-size: 2.2em; margin-bottom: 0.2em; }
+    textarea { width: 100%; min-height: 180px; font-size: 1.1em; font-family: 'Fira Mono', 'Consolas', monospace; border-radius: 8px; border: 1px solid #ccc; padding: 12px; margin-bottom: 16px; }
+    button { background: #ffb347; color: #222; border: none; border-radius: 8px; padding: 12px 28px; font-size: 1.1em; cursor: pointer; transition: background 0.2s; }
+    button:hover { background: #ff9800; }
+    .output { background: #222; color: #fff; border-radius: 8px; padding: 16px; min-height: 40px; margin-top: 18px; font-family: 'Fira Mono', 'Consolas', monospace; }
+    .footer { text-align: center; margin-top: 32px; color: #888; font-size: 0.95em; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>MeowLang Playground 🐾</h1>
+    <textarea id="code" placeholder="Write your MeowLang code here..."></textarea>
+    <button onclick="runMeow()">Run</button>
+    <div class="output" id="output"></div>
+  </div>
+  <div class="footer">
+    <span>MeowLang Web Playground &copy; 2024</span>
+  </div>
+  <script src="playground.js"></script>
+</body>
+</html>

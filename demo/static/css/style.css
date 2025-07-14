@@ -1,8 +1,165 @@
 /* Custom styles for MeowLang website */
 
+/* Typography */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+}
+
+/* Code editor styling */
+#codeEditor {
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    line-height: 1.5;
+    tab-size: 4;
+}
+
+/* Output container */
+.output-container {
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    line-height: 1.5;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* Memory visualizer */
+.memory-visualizer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 8px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    min-height: 60px;
+    align-items: center;
+}
+
+.memory-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.memory-cell.current {
+    border-color: #6f42c1;
+    background-color: #f3e8ff;
+    color: #6f42c1;
+}
+
+.memory-cell.non-zero {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    border-color: #bbdefb;
+}
+
+.memory-cell.zero {
+    background-color: #f5f5f5;
+    color: #9e9e9e;
+    border-color: #e0e0e0;
+}
+
+/* Button hover effects */
+button {
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    transform: translateY(-1px);
+}
+
+/* Code blocks */
+pre {
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    line-height: 1.5;
+}
+
 /* Smooth scrolling */
 html {
     scroll-behavior: smooth;
+}
+
+/* Focus styles */
+button:focus,
+textarea:focus {
+    outline: 2px solid #6f42c1;
+    outline-offset: 2px;
+}
+
+/* Modal animations */
+#examplesModal {
+    transition: opacity 0.3s ease;
+}
+
+#examplesModal.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Example cards */
+.example-card {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 16px;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.example-card:hover {
+    border-color: #6f42c1;
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.1);
+}
+
+.example-card h3 {
+    color: #6f42c1;
+    margin-bottom: 8px;
+}
+
+.example-card pre {
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 6px;
+    margin: 12px 0;
+    font-size: 13px;
+    overflow-x: auto;
+}
+
+/* Status indicators */
+.status-success {
+    color: #28a745;
+}
+
+.status-error {
+    color: #dc3545;
+}
+
+.status-info {
+    color: #17a2b8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .memory-cell {
+        width: 35px;
+        height: 35px;
+        font-size: 11px;
+    }
+    
+    #codeEditor {
+        height: 300px;
+    }
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
 }
 
 /* Custom scrollbar */
@@ -11,195 +168,15 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-    background: #1f2937;
+    background: #f1f1f1;
+    border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #4b5563;
+    background: #c1c1c1;
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #6b7280;
-}
-
-/* Code editor enhancements */
-#codeEditor {
-    font-family: 'Fira Code', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-    line-height: 1.5;
-    tab-size: 4;
-}
-
-/* Memory cell animations */
-.memory-cell {
-    transition: all 0.2s ease-in-out;
-}
-
-.memory-cell:hover {
-    transform: scale(1.1);
-    z-index: 10;
-}
-
-/* Button hover effects */
-.btn-hover {
-    transition: all 0.2s ease-in-out;
-}
-
-.btn-hover:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-}
-
-/* Gradient text animation */
-.gradient-text {
-    background: linear-gradient(45deg, #8b5cf6, #ec4899, #8b5cf6);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: gradient-shift 3s ease-in-out infinite;
-}
-
-@keyframes gradient-shift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-
-/* Card hover effects */
-.card-hover {
-    transition: all 0.3s ease-in-out;
-}
-
-.card-hover:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-}
-
-/* Loading animation */
-.loading {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 3px solid rgba(139, 92, 246, 0.3);
-    border-radius: 50%;
-    border-top-color: #8b5cf6;
-    animation: spin 1s ease-in-out infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-/* Syntax highlighting for MeowLang */
-.language-meow {
-    color: #e5e7eb;
-}
-
-.language-meow .token.keyword {
-    color: #8b5cf6;
-    font-weight: bold;
-}
-
-.language-meow .token.comment {
-    color: #6b7280;
-    font-style: italic;
-}
-
-/* Modal animations */
-.modal-enter {
-    opacity: 0;
-    transform: scale(0.9);
-}
-
-.modal-enter-active {
-    opacity: 1;
-    transform: scale(1);
-    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
-}
-
-.modal-exit {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.modal-exit-active {
-    opacity: 0;
-    transform: scale(0.9);
-    transition: opacity 0.2s ease-in, transform 0.2s ease-in;
-}
-
-/* Status indicators */
-.status-success {
-    color: #10b981;
-}
-
-.status-error {
-    color: #ef4444;
-}
-
-.status-info {
-    color: #3b82f6;
-}
-
-/* Responsive design improvements */
-@media (max-width: 768px) {
-    .memory-visualizer {
-        max-height: 80px;
-    }
-    
-    .memory-cell {
-        width: 25px;
-        height: 25px;
-        font-size: 10px;
-    }
-}
-
-/* Focus states for accessibility */
-button:focus,
-a:focus,
-input:focus,
-textarea:focus {
-    outline: 2px solid #8b5cf6;
-    outline-offset: 2px;
-}
-
-/* Print styles */
-@media print {
-    .no-print {
-        display: none !important;
-    }
-    
-    body {
-        background: white !important;
-        color: black !important;
-    }
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-    /* Styles are already dark by default */
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .memory-cell {
-        border-width: 2px;
-    }
-    
-    .memory-cell.current {
-        border-width: 3px;
-    }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-    
-    .gradient-text {
-        animation: none;
-    }
+    background: #a8a8a8;
 } 

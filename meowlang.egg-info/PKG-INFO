@@ -1,14 +1,14 @@
 Metadata-Version: 2.4
 Name: meowlang
-Version: 0.0.3
+Version: 0.1.0
 Summary: A feline-friendly esoteric programming language
 Home-page: https://github.com/jaytirthjoshi/meow
-Author: Jay Joshi
+Author: Jaytirth Joshi
 Author-email: jay@joshi1.com
 Project-URL: Bug Reports, https://github.com/jaytirthjoshi/meow/issues
 Project-URL: Source, https://github.com/jaytirthjoshi/meow
 Project-URL: Documentation, https://github.com/jaytirthjoshi/meow#readme
-Keywords: esolang programming language cat meow
+Keywords: esolang programming language cat meow inline-comments puffup shrinktail catnap scaredycat hairball pawprint hissfit
 Classifier: Development Status :: 4 - Beta
 Classifier: Intended Audience :: Developers
 Classifier: Intended Audience :: Education
@@ -66,7 +66,7 @@ python meow_interpreter.py examples/hello_world.meow
 Create a file called `hello.meow`:
 
 ```meow
-# Hello World in .meow
+🐾 Hello World in .meow 🐾
 meow
 meow
 meow
@@ -96,6 +96,7 @@ Output:
 | `meow` | Increment memory value by 1 | `meow` → memory += 1 |
 | `hiss` | Decrement memory value by 1 | `hiss` → memory -= 1 |
 | `purr` | Print the current memory value | `purr` → prints memory |
+| `meowt "text"` | Print custom text output | `meowt "Hello!"` → prints Hello! |
 | `nap` | Do nothing (no-op) | `nap` → does nothing |
 | `scratch` | Reset memory value to 0 | `scratch` → memory = 0 |
 | `lick` | Double the current memory value | `lick` → memory *= 2 |
@@ -106,6 +107,14 @@ Output:
 | `🐾` | Comment/decoration (ignored) | `🐾 comment 🐾` |
 | `mew` | Take user input and set memory to that value | `mew` → memory = user input |
 | `pounce <line_number>` | Jump to the specified line number (1-based) | `pounce 5` |
+| `knead` | Add current and next cell, store in current | `knead` → memory[pointer] += memory[pointer+1] |
+| `scratchout` | Subtract next cell from current, store in current | `scratchout` → memory[pointer] -= memory[pointer+1] |
+| `pounceon` | Multiply current and next cell, store in current | `pounceon` → memory[pointer] *= memory[pointer+1] |
+| `hairball` | Integer divide current by next cell, store in current | `hairball` → memory[pointer] //= memory[pointer+1] |
+| `pawprint` | Modulo current by next cell, store in current | `pawprint` → memory[pointer] %= memory[pointer+1] |
+| `catnip` | Raise current to power of next cell, store in current | `catnip` → memory[pointer] **= memory[pointer+1] |
+| `snuggle` | Copy value from next cell to current cell | `snuggle` → memory[pointer] = memory[pointer+1] |
+| `mewmew` | Take user input and store in next cell | `mewmew` → memory[pointer+1] = user input |
 
 ## File Extension
 
@@ -119,7 +128,7 @@ All MeowLang programs are saved as `.meow` files:
 ### Countdown Program
 
 ```meow
-# Countdown from 5 to 1
+🐾 Countdown from 5 to 1 🐾
 meow
 meow
 meow
@@ -143,7 +152,7 @@ paw
 ### Mathematical Operations
 
 ```meow
-# Powers and multiplication demo
+🐾 Powers and multiplication demo 🐾
 meow
 meow
 purr
@@ -169,7 +178,7 @@ purr
 ### Fibonacci Sequence
 
 ```meow
-# First 8 Fibonacci numbers
+🐾 First 8 Fibonacci numbers 🐾
 meow
 purr
 purr
@@ -180,7 +189,7 @@ meow
 meow
 meow
 purr
-# ... (see examples/fibonacci.meow for full program)
+🐾 ... (see examples/fibonacci.meow for full program) 🐾
 ```
 
 **Output:**
@@ -195,103 +204,134 @@ purr
 21
 ```
 
+### Stretch Command
+
+```meow
+🐾 Demonstrate the 'stretch' command 🐾
+meow
+meow
+meow
+hiss
+hiss
+hiss
+hiss
+purr
+stretch
+purr
+🐾 The first purr should print -1, the second should print 1 🐾
+```
+
+**Output:**
+```
+-1
+1
+```
+
+### Groom Command (Sort Memory)
+
+```meow
+🐾 Demonstrate the 'groom' command (sort memory) 🐾
+meow
+meow
+right
+meow
+meow
+meow
+right
+meow
+hiss
+hiss
+purr 🐾 Should print -1 (third cell)
+groom
+left
+left
+purr 🐾 Should print 2 (first cell, after sort)
+right
+purr 🐾 Should print 3 (second cell, after sort)
+right
+purr 🐾 Should print -1 (third cell, after sort)
+```
+
+**Output:**
+```
+-1
+2
+3
+-1
+```
+
+### Puffup and Shrinktail (Tape Expansion/Contraction)
+
+```meow
+🐾 Demonstrate 'puffup' and 'shrinktail' commands 🐾
+meow
+meow
+purr 🐾 Should print 2 (cell 0)
+puffup 2
+right
+meow
+purr 🐾 Should print 1 (cell 1)
+right
+meow
+meow
+purr 🐾 Should print 2 (cell 2)
+shrinktail 1
+right
+purr 🐾 Should print 0 (cell 2 was removed, pointer now at last cell)
+```
+
+**Output:**
+```
+2
+1
+2
+0
+```
+
+### Custom Text Output
+
+```meow
+meowt "Hello, world!"
+purr
+meowt "Done!"
+```
+
+**Output:**
+```
+Hello, world!
+0
+Done!
+```
+
+### Calculator Example
+
+```meow
+🐾 Simple calculator: (3 + 4) * 2 🐾
+meow
+meow
+meow      🐾 cell 0 = 3
+right
+meow
+meow
+meow
+meow      🐾 cell 1 = 4
+left
+knead     🐾 cell 0 = 3 + 4 = 7
+right
+meow
+meow      🐾 cell 1 = 2
+left
+pounceon  🐾 cell 0 = 7 * 2 = 14
+purr      🐾 prints 14
+```
+
+### More Examples
+
+See `examples/calculator.meow` for a full calculator program using the cat-themed calculator commands (`knead`, `scratchout`, `pounceon`, `hairball`, `pawprint`, `catnip`).
+
 ## Usage
 
 ### Command Line Interface
 
-```bash
-# Run a .meow file
-python meow_interpreter.py program.meow
-
-# Execute code directly
-python meow_interpreter.py -e "meow meow meow purr"
-
-# Get help
-python meow_interpreter.py
 ```
-
-### Python API
-
-```python
-from meow_interpreter import MeowInterpreter
-
-interpreter = MeowInterpreter()
-
-# Run from string
-code = """
-meow
-meow
-meow
-purr
-"""
-result = interpreter.run(code)
-print(result)  # Output: 3
-
-# Run from file
-result = interpreter.run_file("program.meow")
 ```
-
-## Language Features
-
-### Memory Model
-- Single integer memory cell
-- Starts at 0
-- Can be positive or negative
-- Supports basic arithmetic operations
-
-### Control Flow
-- Simple while loops with `yowl` and `paw`
-- Loops continue while memory != 0
-- Nested loops supported
-
-### Input/Output
-- `purr` outputs current memory value
-- Output is always numeric
-- Values are printed on separate lines
-
-### Comments and Decorations
-- Lines starting with `🐾` are comments
-- Emoji comments (`🐾 comment 🐾`) are ignored
-- Empty lines are skipped
-
-## Notes & Limitations
-
-- **Case-sensitive**: All commands must be lowercase
-- **Whitespace**: Commands are separated by newlines
-- **Unknown commands**: Ignored with a warning
-- **Memory limits**: Standard Python integer limits apply
-- **No input**: Currently read-only (memory manipulation only)
-
-## Why .meow?
-
-Because:
-- **Programming is fun** — Why not make it adorable?
-- **Cats are chaotic** — Perfect for esoteric languages
-- **You deserve joy** — Write code that makes you smile
-- **Learning is better with cats** — Meow while you code!
-
-## Contributing
-
-Want to add more cat commands? Here are some ideas:
-
-- `stretch` — Absolute value
-- `pounce` — Jump to line number
-- `groom` — Sort memory (if we add arrays)
-- `chase` — Random number generation
-- `sleep` — Sleep/delay command
-
-## License
-
-MIT License - feel free to use this for fun projects, educational purposes, or just because cats are awesome!
-
-## Acknowledgments
-
-- Inspired by esoteric languages like Brainfuck, Befunge, and LOLCODE
-- Made with love for the programming community
-- Special thanks to all the cats who inspired this language
-
----
-
-**Made by cat lovers, for cat lovers**
-
-*"In a world full of serious programming languages, be the one that goes meow!"*

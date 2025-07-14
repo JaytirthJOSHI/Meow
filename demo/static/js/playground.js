@@ -248,116 +248,240 @@ class MeowLangWebInterpreter {
     }
 }
 
-// Playground functionality
-class MeowLangPlayground {
-    constructor() {
-        this.interpreter = new MeowLangWebInterpreter();
-        this.editor = document.getElementById('codeEditor');
-        this.output = document.getElementById('output');
-        this.status = document.getElementById('status');
-        this.memoryVisualizer = document.getElementById('memoryVisualizer');
-        this.pointerPos = document.getElementById('pointerPos');
-        this.memorySize = document.getElementById('memorySize');
-        this.lineCount = document.getElementById('lineCount');
-        
-        this.setupEventListeners();
-        this.updateLineCount();
+// Playground functionality for GitHub Pages
+document.addEventListener('DOMContentLoaded', function() {
+    const codeEditor = document.getElementById('codeEditor');
+    const output = document.getElementById('output');
+    const memoryVisualizer = document.getElementById('memoryVisualizer');
+    const pointerPos = document.getElementById('pointerPos');
+    const memorySize = document.getElementById('memorySize');
+    const status = document.getElementById('status');
+    const lineCount = document.getElementById('lineCount');
+    const runBtn = document.getElementById('runBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const examplesBtn = document.getElementById('examplesBtn');
+    const clearOutputBtn = document.getElementById('clearOutputBtn');
+    const examplesModal = document.getElementById('examplesModal');
+    const closeExamplesBtn = document.getElementById('closeExamplesBtn');
+    const examplesList = document.getElementById('examplesList');
+
+    // Examples data
+    const examples = [
+        {
+            name: "Hello World",
+            description: "Simple countdown that prints numbers",
+            code: `🐾 Hello World - Countdown from 5
+meow meow meow meow meow 🐾 Set to 5
+yowl 🐾 Start loop
+    purr 🐾 Output current number
+    hiss 🐾 Decrement
+paw 🐾 End loop when reaches 0`
+        },
+        {
+            name: "Fibonacci Sequence",
+            description: "Generate first 10 Fibonacci numbers",
+            code: `🐾 Fibonacci Sequence
+meow meow meow meow meow meow meow meow meow meow 🐾 Set cell 0 to 10 (counter)
+right 🐾 Move to cell 1
+meow 🐾 Set cell 1 to 1 (first Fibonacci number)
+right 🐾 Move to cell 2
+meow 🐾 Set cell 2 to 1 (second Fibonacci number)
+left left 🐾 Back to cell 0
+yowl 🐾 Start loop
+    right right 🐾 Move to cell 2
+    knead 🐾 Add cells 1 and 2, store in cell 2
+    left 🐾 Move to cell 1
+    knead 🐾 Add cells 0 and 1, store in cell 1
+    left 🐾 Move to cell 0
+    hiss 🐾 Decrement counter
+paw 🐾 End loop
+right right 🐾 Move to cell 2
+purr 🐾 Output final Fibonacci number`
+        },
+        {
+            name: "Simple Calculator",
+            description: "Add two numbers (5 + 3)",
+            code: `🐾 Simple Calculator - Add 5 + 3
+meow meow meow meow meow 🐾 Set first number to 5
+right 🐾 Move to next cell
+meow meow meow 🐾 Set second number to 3
+left 🐾 Back to first cell
+knead 🐾 Add the two numbers
+right 🐾 Move to result cell
+purr 🐾 Output result (should be 8)`
+        },
+        {
+            name: "Random Number Generator",
+            description: "Generate a random number between 0-9",
+            code: `🐾 Random Number Generator
+chase 🐾 Generate random number 0-9
+purr 🐾 Output the random number`
+        },
+        {
+            name: "Memory Operations",
+            description: "Demonstrate various memory operations",
+            code: `🐾 Memory Operations Demo
+meow meow meow meow meow 🐾 Set to 5
+lick 🐾 Multiply by 2 (now 10)
+purr 🐾 Output 10
+hiss hiss hiss 🐾 Subtract 3 (now 7)
+purr 🐾 Output 7
+stretch 🐾 Absolute value (still 7)
+purr 🐾 Output 7
+hiss hiss hiss hiss hiss hiss hiss hiss 🐾 Subtract 8 (now -1)
+stretch 🐾 Absolute value (now 1)
+purr 🐾 Output 1`
+        }
+    ];
+
+    // Update line count
+    function updateLineCount() {
+        const lines = codeEditor.value.split('\n').length;
+        lineCount.textContent = `${lines} line${lines !== 1 ? 's' : ''}`;
     }
 
-    setupEventListeners() {
-        document.getElementById('runBtn').addEventListener('click', () => this.runCode());
-        document.getElementById('clearBtn').addEventListener('click', () => this.clearEditor());
-        document.getElementById('clearOutputBtn').addEventListener('click', () => this.clearOutput());
+    // Update memory visualization
+    function updateMemoryVisualization(memoryState) {
+        memoryVisualizer.innerHTML = '';
+        pointerPos.textContent = memoryState.pointer;
         
-        this.editor.addEventListener('input', () => this.updateLineCount());
-        this.editor.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key === 'Enter') {
-                e.preventDefault();
-                this.runCode();
+        // Show first 20 cells or all non-zero cells
+        const cellsToShow = Math.max(20, memoryState.nonZeroCells.length + 5);
+        
+        for (let i = 0; i < cellsToShow; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'memory-cell';
+            
+            if (i === memoryState.pointer) {
+                cell.classList.add('current');
             }
-        });
-
-        // Setup example loading
-        document.querySelectorAll('.load-example').forEach(button => {
-            button.addEventListener('click', () => {
-                const code = button.getAttribute('data-code');
-                this.editor.value = code;
-                this.updateLineCount();
-                this.setStatus('Example loaded', 'success');
-            });
-        });
+            
+            if (memoryState.memory[i] !== 0) {
+                cell.classList.add('non-zero');
+            } else {
+                cell.classList.add('zero');
+            }
+            
+            cell.textContent = memoryState.memory[i];
+            memoryVisualizer.appendChild(cell);
+        }
+        
+        memorySize.textContent = cellsToShow;
     }
 
-    updateLineCount() {
-        const lines = this.editor.value.split('\n').length;
-        this.lineCount.textContent = `${lines} line${lines !== 1 ? 's' : ''}`;
-    }
-
-    runCode() {
-        const code = this.editor.value.trim();
+    // Run code
+    function runCode() {
+        const code = codeEditor.value.trim();
         if (!code) {
-            this.setStatus('No code to run', 'error');
+            status.textContent = 'No code to run';
+            status.className = 'text-sm text-gray-600';
             return;
         }
 
-        this.setStatus('Running code...', 'info');
-        this.clearOutput();
+        status.textContent = 'Running...';
+        status.className = 'text-sm text-gray-600';
+        runBtn.disabled = true;
 
-        try {
-            const result = this.interpreter.run(code);
-            const memoryState = this.interpreter.getMemoryState();
+        // Use setTimeout to allow UI to update
+        setTimeout(() => {
+            try {
+                const result = window.meowInterpreter.execute(code);
+                
+                if (result.success) {
+                    output.textContent = result.output || '(no output)';
+                    updateMemoryVisualization(result);
+                    status.textContent = 'Execution completed successfully';
+                    status.className = 'text-sm status-success';
+                } else {
+                    output.textContent = `Error: ${result.error}`;
+                    updateMemoryVisualization(result);
+                    status.textContent = 'Execution failed';
+                    status.className = 'text-sm status-error';
+                }
+            } catch (error) {
+                output.textContent = `Error: ${error.message}`;
+                status.textContent = 'Execution failed';
+                status.className = 'text-sm status-error';
+            }
             
-            this.displayOutput(result);
-            this.updateMemoryVisualization(memoryState.memory, memoryState.pointer);
-            this.setStatus('Code executed successfully', 'success');
-        } catch (error) {
-            this.setStatus(`Error: ${error.message}`, 'error');
-        }
+            runBtn.disabled = false;
+        }, 10);
     }
 
-    displayOutput(output) {
-        this.output.textContent = output || '(no output)';
+    // Clear code editor
+    function clearCode() {
+        codeEditor.value = '';
+        updateLineCount();
+        status.textContent = 'Ready to run code';
+        status.className = 'text-sm text-gray-600';
     }
 
-    updateMemoryVisualization(memory, pointer) {
-        this.memoryVisualizer.innerHTML = '';
-        this.pointerPos.textContent = pointer;
-        this.memorySize.textContent = memory.length;
+    // Clear output
+    function clearOutput() {
+        output.textContent = '';
+        status.textContent = 'Ready to run code';
+        status.className = 'text-sm text-gray-600';
+    }
 
-        memory.forEach((value, index) => {
-            const cell = document.createElement('div');
-            cell.className = `memory-cell ${index === pointer ? 'current' : ''} ${value !== 0 ? 'non-zero' : ''}`;
-            cell.textContent = value;
-            this.memoryVisualizer.appendChild(cell);
+    // Load example
+    function loadExample(code) {
+        codeEditor.value = code;
+        updateLineCount();
+        status.textContent = 'Example loaded';
+        status.className = 'text-sm status-info';
+    }
+
+    // Show examples modal
+    function showExamples() {
+        examplesList.innerHTML = '';
+        
+        examples.forEach((example, index) => {
+            const card = document.createElement('div');
+            card.className = 'example-card';
+            card.innerHTML = `
+                <h3>${example.name}</h3>
+                <p class="text-sm text-gray-600 mb-3">${example.description}</p>
+                <pre><code>${example.code}</code></pre>
+                <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded text-sm mt-3 transition-colors" onclick="loadExample(\`${example.code.replace(/`/g, '\\`')}\`)">
+                    Load Example
+                </button>
+            `;
+            examplesList.appendChild(card);
         });
+        
+        examplesModal.classList.remove('hidden');
     }
 
-    setStatus(message, type = 'info') {
-        const colors = {
-            info: 'text-blue-400',
-            success: 'text-green-400',
-            error: 'text-red-400'
-        };
-        this.status.className = `text-sm ${colors[type]}`;
-        this.status.textContent = message;
+    // Hide examples modal
+    function hideExamples() {
+        examplesModal.classList.add('hidden');
     }
 
-    clearEditor() {
-        this.editor.value = '';
-        this.updateLineCount();
-        this.setStatus('Editor cleared', 'info');
-    }
+    // Event listeners
+    codeEditor.addEventListener('input', updateLineCount);
+    codeEditor.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 'Enter') {
+            e.preventDefault();
+            runCode();
+        }
+    });
 
-    clearOutput() {
-        this.output.textContent = '';
-        this.memoryVisualizer.innerHTML = '<div class="memory-cell current non-zero">0</div>';
-        this.pointerPos.textContent = '0';
-        this.memorySize.textContent = '1';
-        this.setStatus('Output cleared', 'info');
-    }
-}
+    runBtn.addEventListener('click', runCode);
+    clearBtn.addEventListener('click', clearCode);
+    clearOutputBtn.addEventListener('click', clearOutput);
+    examplesBtn.addEventListener('click', showExamples);
+    closeExamplesBtn.addEventListener('click', hideExamples);
 
-// Initialize playground when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    new MeowLangPlayground();
+    // Close modal when clicking outside
+    examplesModal.addEventListener('click', function(e) {
+        if (e.target === examplesModal) {
+            hideExamples();
+        }
+    });
+
+    // Initialize
+    updateLineCount();
+    
+    // Load a default example
+    loadExample(examples[0].code);
 }); 
