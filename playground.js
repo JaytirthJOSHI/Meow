@@ -145,6 +145,7 @@ class MeowLangInterpreter {
 
 // Playground functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Get DOM elements with null checks
     const codeEditor = document.getElementById('codeEditor');
     const output = document.getElementById('output');
     const memoryVisualizer = document.getElementById('memoryVisualizer');
@@ -161,6 +162,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const examplesModal = document.getElementById('examplesModal');
     const closeExamplesBtn = document.getElementById('closeExamplesBtn');
     const examplesList = document.getElementById('examplesList');
+
+    // Check if we're on the playground page
+    if (!codeEditor || !output) {
+        console.log('Not on playground page, skipping playground initialization');
+        return;
+    }
 
     // Global interpreter instance
     window.meowInterpreter = new MeowLangInterpreter();
@@ -251,7 +258,9 @@ paw 🐾 End outer loop`
 
     // Update line and character count
     function updateCounts() {
-        const text = codeEditor.value;
+        if (!codeEditor || !lineCount || !charCount) return;
+        
+        const text = codeEditor.value || '';
         const lines = text.split('\n').length;
         const chars = text.length;
         
@@ -261,6 +270,8 @@ paw 🐾 End outer loop`
 
     // Update memory visualization
     function updateMemoryVisualization(memoryState) {
+        if (!memoryVisualizer || !pointerPos || !memorySize) return;
+        
         memoryVisualizer.innerHTML = '';
         pointerPos.textContent = memoryState.pointer;
         
@@ -290,6 +301,8 @@ paw 🐾 End outer loop`
 
     // Run code
     function runCode() {
+        if (!codeEditor) return;
+        
         const code = codeEditor.value.trim();
         if (!code) {
             updateStatus('No code to run', 'error');
@@ -297,8 +310,10 @@ paw 🐾 End outer loop`
         }
 
         updateStatus('Running...', 'info');
-        runBtn.disabled = true;
-        runBtn.classList.add('loading');
+        if (runBtn) {
+            runBtn.disabled = true;
+            runBtn.classList.add('loading');
+        }
 
         // Use setTimeout to allow UI to update
         setTimeout(() => {
@@ -306,73 +321,107 @@ paw 🐾 End outer loop`
                 const result = window.meowInterpreter.execute(code);
                 
                 if (result.success) {
-                    output.innerHTML = result.output || '<div class="output-placeholder"><span>🐱</span><p>No output generated</p></div>';
+                    if (output) {
+                        output.innerHTML = result.output || '<div class="output-placeholder"><span>🐱</span><p>No output generated</p></div>';
+                    }
                     updateMemoryVisualization(result);
                     updateStatus('Execution completed successfully', 'success');
-                    executionTime.textContent = `Execution time: ${result.executionTime}ms`;
+                    if (executionTime) {
+                        executionTime.textContent = `Execution time: ${result.executionTime}ms`;
+                    }
                 } else {
-                    output.innerHTML = `<div style="color: #ef4444;">Error: ${result.error}</div>`;
+                    if (output) {
+                        output.innerHTML = `<div style="color: #ef4444;">Error: ${result.error}</div>`;
+                    }
                     updateMemoryVisualization(result);
                     updateStatus('Execution failed', 'error');
-                    executionTime.textContent = `Execution time: ${result.executionTime}ms`;
+                    if (executionTime) {
+                        executionTime.textContent = `Execution time: ${result.executionTime}ms`;
+                    }
                 }
             } catch (error) {
-                output.innerHTML = `<div style="color: #ef4444;">Error: ${error.message}</div>`;
+                if (output) {
+                    output.innerHTML = `<div style="color: #ef4444;">Error: ${error.message}</div>`;
+                }
                 updateStatus('Execution failed', 'error');
-                executionTime.textContent = '';
+                if (executionTime) {
+                    executionTime.textContent = '';
+                }
             }
             
-            runBtn.disabled = false;
-            runBtn.classList.remove('loading');
+            if (runBtn) {
+                runBtn.disabled = false;
+                runBtn.classList.remove('loading');
+            }
         }, 10);
     }
 
     // Update status
     function updateStatus(message, type = 'info') {
+        if (!status) return;
+        
         const statusContent = status.querySelector('span:last-child');
         const statusIcon = status.querySelector('.status-icon');
         
-        statusContent.textContent = message;
+        if (statusContent) {
+            statusContent.textContent = message;
+        }
         status.className = `status-content status-${type}`;
         
-        switch (type) {
-            case 'success':
-                statusIcon.textContent = '✅';
-                break;
-            case 'error':
-                statusIcon.textContent = '❌';
-                break;
-            case 'info':
-                statusIcon.textContent = 'ℹ️';
-                break;
+        if (statusIcon) {
+            switch (type) {
+                case 'success':
+                    statusIcon.textContent = '✅';
+                    break;
+                case 'error':
+                    statusIcon.textContent = '❌';
+                    break;
+                case 'info':
+                    statusIcon.textContent = 'ℹ️';
+                    break;
+            }
         }
     }
 
     // Clear code editor
     function clearCode() {
+        if (!codeEditor) return;
+        
         codeEditor.value = '';
         updateCounts();
         updateStatus('Ready to run code', 'info');
-        executionTime.textContent = '';
+        if (executionTime) {
+            executionTime.textContent = '';
+        }
     }
 
     // Clear output
     function clearOutput() {
+        if (!output) return;
+        
         output.innerHTML = '<div class="output-placeholder"><span>🐱</span><p>Program output will appear here</p></div>';
         updateStatus('Ready to run code', 'info');
-        executionTime.textContent = '';
+        if (executionTime) {
+            executionTime.textContent = '';
+        }
     }
 
     // Load example
     function loadExample(code) {
+        if (!codeEditor) return;
+        
         codeEditor.value = code;
         updateCounts();
         updateStatus('Example loaded', 'info');
-        executionTime.textContent = '';
+        if (executionTime) {
+            executionTime.textContent = '';
+        }
     }
 
     // Show examples modal
     function showExamples() {
+        if (!examplesList || !examplesModal) return;
+        
         examplesList.innerHTML = '';
         
         examples.forEach((example, index) => {
@@ -394,34 +443,54 @@ paw 🐾 End outer loop`
 
     // Hide examples modal
     function hideExamples() {
+        if (!examplesModal) return;
+        
         examplesModal.classList.remove('active');
     }
 
-    // Event listeners
-    codeEditor.addEventListener('input', updateCounts);
-    codeEditor.addEventListener('keydown', function(e) {
-        if (e.ctrlKey && e.key === 'Enter') {
-            e.preventDefault();
-            runCode();
-        }
-    });
+    // Event listeners with null checks
+    if (codeEditor) {
+        codeEditor.addEventListener('input', updateCounts);
+        codeEditor.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                e.preventDefault();
+                runCode();
+            }
+        });
+    }
 
-    runBtn.addEventListener('click', runCode);
-    clearBtn.addEventListener('click', clearCode);
-    clearOutputBtn.addEventListener('click', clearOutput);
-    examplesBtn.addEventListener('click', showExamples);
-    closeExamplesBtn.addEventListener('click', hideExamples);
+    if (runBtn) {
+        runBtn.addEventListener('click', runCode);
+    }
+    
+    if (clearBtn) {
+        clearBtn.addEventListener('click', clearCode);
+    }
+    
+    if (clearOutputBtn) {
+        clearOutputBtn.addEventListener('click', clearOutput);
+    }
+    
+    if (examplesBtn) {
+        examplesBtn.addEventListener('click', showExamples);
+    }
+    
+    if (closeExamplesBtn) {
+        closeExamplesBtn.addEventListener('click', hideExamples);
+    }
 
     // Close modal when clicking outside
-    examplesModal.addEventListener('click', function(e) {
-        if (e.target === examplesModal) {
-            hideExamples();
-        }
-    });
+    if (examplesModal) {
+        examplesModal.addEventListener('click', function(e) {
+            if (e.target === examplesModal) {
+                hideExamples();
+            }
+        });
+    }
 
     // Close modal with Escape key
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && examplesModal.classList.contains('active')) {
+        if (e.key === 'Escape' && examplesModal && examplesModal.classList.contains('active')) {
             hideExamples();
         }
     });
@@ -430,10 +499,14 @@ paw 🐾 End outer loop`
     updateCounts();
     
     // Load a default example
-    loadExample(examples[0].code);
+    if (examples.length > 0) {
+        loadExample(examples[0].code);
+    }
 
     // Add syntax highlighting (simple)
     function highlightSyntax() {
+        if (!codeEditor) return;
+        
         const text = codeEditor.value;
         const highlighted = text
             .replace(/\b(meow|hiss|purr|left|right|yowl|paw)\b/g, '<span style="color: #6366f1;">$1</span>')
@@ -445,10 +518,14 @@ paw 🐾 End outer loop`
 
     // Auto-save to localStorage
     function autoSave() {
+        if (!codeEditor) return;
+        
         localStorage.setItem('meowlang-code', codeEditor.value);
     }
 
     function autoLoad() {
+        if (!codeEditor) return;
+        
         const savedCode = localStorage.getItem('meowlang-code');
         if (savedCode) {
             codeEditor.value = savedCode;
