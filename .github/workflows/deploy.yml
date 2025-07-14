@@ -1,10 +1,11 @@
 name: Deploy to GitHub Pages
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+# Disabled - using GitHub's native Pages deployment instead
+# on:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
 
 permissions:
   contents: read
