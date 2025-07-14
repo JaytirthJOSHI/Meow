@@ -1,12 +1,21 @@
 #!/usr/bin/env python3
 """
-Setup script for the .meow language interpreter
+Setup script for the MeowLang interpreter
+A feline-friendly esoteric programming language
 """
 
 from setuptools import setup, find_packages
+import os
 
-with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
+# Read the README file
+def read_readme():
+    with open("README.md", "r", encoding="utf-8") as fh:
+        return fh.read()
+
+# Read requirements
+def read_requirements():
+    with open("requirements.txt", "r", encoding="utf-8") as fh:
+        return [line.strip() for line in fh if line.strip() and not line.startswith("#")]
 
 setup(
     name="meowlang",
@@ -14,9 +23,15 @@ setup(
     author="Jaytirth Joshi",
     author_email="jay@joshi1.com",
     description="A feline-friendly esoteric programming language",
-    long_description=long_description,
+    long_description=read_readme(),
     long_description_content_type="text/markdown",
     url="https://github.com/jaytirthjoshi/meow",
+    project_urls={
+        "Bug Reports": "https://github.com/jaytirthjoshi/meow/issues",
+        "Source": "https://github.com/jaytirthjoshi/meow",
+        "Documentation": "https://github.com/jaytirthjoshi/meow#readme",
+        "Web Demo": "https://meowlang.jaytirthjoshi.com",
+    },
     packages=find_packages(),
     classifiers=[
         "Development Status :: 4 - Beta",
@@ -30,19 +45,41 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "Topic :: Software Development :: Interpreters",
         "Topic :: Software Development :: Libraries :: Python Modules",
+        "Topic :: Education",
+        "Topic :: Games/Entertainment",
     ],
     python_requires=">=3.7",
-    entry_points={
-        "console_scripts": [
-            "meow=meow_interpreter:main",
+    install_requires=read_requirements(),
+    extras_require={
+        "dev": [
+            "pytest>=6.0",
+            "pytest-cov>=2.0",
+            "black>=21.0",
+            "flake8>=3.8",
+            "mypy>=0.800",
+        ],
+        "web": [
+            "flask>=2.0",
+            "flask-cors>=3.0",
         ],
     },
-    keywords="esolang programming language cat meow inline-comments puffup shrinktail catnap scaredycat hairball pawprint hissfit",
-    project_urls={
-        "Bug Reports": "https://github.com/jaytirthjoshi/meow/issues",
-        "Source": "https://github.com/jaytirthjoshi/meow",
-        "Documentation": "https://github.com/jaytirthjoshi/meow#readme",
+    entry_points={
+        "console_scripts": [
+            "meow=meowlang.interpreter:main",
+        ],
     },
+    keywords=[
+        "esolang", "programming", "language", "cat", "meow", 
+        "inline-comments", "puffup", "shrinktail", "catnap", 
+        "scaredycat", "hairball", "pawprint", "hissfit",
+        "esoteric", "interpreter", "brainfuck", "educational"
+    ],
+    include_package_data=True,
+    package_data={
+        "": ["*.json", "*.md", "*.txt"],
+    },
+    zip_safe=False,
 )

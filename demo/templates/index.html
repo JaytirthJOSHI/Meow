@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}MeowLang - A Feline-Friendly Programming Language{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="text-center py-16">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <i class="fas fa-cat mr-4"></i>MeowLang
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-300 mb-8">
+            A feline-friendly esoteric programming language where every command sounds like a cat!
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="/playground" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-lg transition-colors">
+                <i class="fas fa-play mr-2"></i>Try It Now
+            </a>
+            <a href="https://pypi.org/project/meowlang/" target="_blank" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-lg transition-colors">
+                <i class="fab fa-python mr-2"></i>Install with pip
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-16">
+    <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-12">Why MeowLang?</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                <div class="text-purple-400 text-3xl mb-4">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Educational</h3>
+                <p class="text-gray-300">Perfect for learning programming concepts in a fun, approachable way. Great for beginners and educators!</p>
+            </div>
+            <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                <div class="text-purple-400 text-3xl mb-4">
+                    <i class="fas fa-cat"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Feline-Friendly</h3>
+                <p class="text-gray-300">Every command sounds like a cat! From 'meow' to 'purr', programming has never been this adorable.</p>
+            </div>
+            <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                <div class="text-purple-400 text-3xl mb-4">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Esoteric</h3>
+                <p class="text-gray-300">Based on Brainfuck but with a cat-themed twist. Challenge yourself with this unique programming language!</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Start Section -->
+<section class="py-16 bg-gray-800 rounded-lg">
+    <div class="max-w-4xl mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-8">Quick Start</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+            <div>
+                <h3 class="text-xl font-bold mb-4 text-purple-400">Installation</h3>
+                <pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto"><code class="language-bash">pip install meowlang</code></pre>
+                
+                <h3 class="text-xl font-bold mb-4 mt-6 text-purple-400">Command Line</h3>
+                <pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto"><code class="language-bash">meow hello.meow
+meow -c "meow meow meow purr"</code></pre>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4 text-purple-400">Your First Program</h3>
+                <pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto"><code class="language-meow">🐾 Hello World in MeowLang
+meow meow meow meow meow meow meow meow meow meow 🐾 Set cell 0 to 10
+yowl 🐾 Start loop
+    meow meow meow meow meow meow meow meow meow meow 🐾 Add 10 to cell 0
+    right 🐾 Move to cell 1
+    meow meow meow meow meow meow meow meow meow meow 🐾 Set cell 1 to 10
+    left 🐾 Back to cell 0
+    hiss 🐾 Decrement cell 0
+paw 🐾 End loop
+right 🐾 Move to cell 1
+purr 🐾 Output cell 1 (should be 10)</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Commands Preview -->
+<section class="py-16">
+    <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-12">Core Commands</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+                <h3 class="font-bold text-purple-400">meow</h3>
+                <p class="text-gray-300 text-sm">Increment current cell</p>
+            </div>
+            <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+                <h3 class="font-bold text-purple-400">hiss</h3>
+                <p class="text-gray-300 text-sm">Decrement current cell</p>
+            </div>
+            <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+                <h3 class="font-bold text-purple-400">purr</h3>
+                <p class="text-gray-300 text-sm">Output current cell</p>
+            </div>
+            <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+                <h3 class="font-bold text-purple-400">left/right</h3>
+                <p class="text-gray-300 text-sm">Move pointer</p>
+            </div>
+            <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+                <h3 class="font-bold text-purple-400">yowl/paw</h3>
+                <p class="text-gray-300 text-sm">Loop control</p>
+            </div>
+            <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+                <h3 class="font-bold text-purple-400">🐾</h3>
+                <p class="text-gray-300 text-sm">Comments</p>
+            </div>
+        </div>
+        <div class="text-center mt-8">
+            <a href="/docs" class="text-purple-400 hover:text-purple-300 transition-colors">
+                View all commands <i class="fas fa-arrow-right ml-1"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Examples Preview -->
+<section class="py-16 bg-gray-800 rounded-lg">
+    <div class="max-w-4xl mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-8">Example Programs</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+            <div>
+                <h3 class="text-xl font-bold mb-4 text-purple-400">Fibonacci Sequence</h3>
+                <pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm"><code class="language-meow">🐾 Fibonacci in MeowLang
+meow meow meow meow meow meow meow meow meow meow 🐾 Set cell 0 to 10 (counter)
+yowl 🐾 Start loop
+    right 🐾 Move to cell 1
+    meow meow meow meow meow meow meow meow meow meow 🐾 Set cell 1 to 10
+    right 🐾 Move to cell 2
+    meow meow meow meow meow meow meow meow meow meow 🐾 Set cell 2 to 10
+    left left 🐾 Back to cell 0
+    hiss 🐾 Decrement counter
+paw 🐾 End loop
+right 🐾 Move to cell 1
+purr 🐾 Output first number
+right 🐾 Move to cell 2
+purr 🐾 Output second number</code></pre>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4 text-purple-400">Simple Calculator</h3>
+                <pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm"><code class="language-meow">🐾 Add two numbers
+mew 🐾 Get first number
+right 🐾 Move to next cell
+mew 🐾 Get second number
+left 🐾 Back to first cell
+knead 🐾 Add cells together
+left 🐾 Move to result cell
+purr 🐾 Output result</code></pre>
+            </div>
+        </div>
+        <div class="text-center mt-8">
+            <a href="/examples" class="text-purple-400 hover:text-purple-300 transition-colors">
+                View more examples <i class="fas fa-arrow-right ml-1"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %} 

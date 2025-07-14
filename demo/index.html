@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeowLang - Redirecting...</title>
+    <meta http-equiv="refresh" content="0; url=pages/home.html">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .redirect-container {
+            background: rgba(255,255,255,0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .logo {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .loading {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-container">
+        <div class="logo">🐾 MeowLang</div>
+        <h1>Welcome to MeowLang!</h1>
+        <p>Redirecting you to the main site...</p>
+        <div class="loading">
+            <div class="spinner"></div>
+            Loading...
+        </div>
+        <p style="margin-top: 30px; font-size: 0.9em;">
+            <a href="pages/home.html" style="color: white; text-decoration: underline;">Click here if you're not redirected automatically</a>
+        </p>
+    </div>
+</body>
+</html>

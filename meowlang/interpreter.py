@@ -41,7 +41,9 @@ class MeowInterpreter:
             if '🐾' in line:
                 line = line.split('🐾', 1)[0].strip()
             if line:
-                commands.append(line)
+                # Split the line into individual commands
+                line_commands = line.split()
+                commands.extend(line_commands)
         
         return commands
     
@@ -196,89 +198,36 @@ class MeowInterpreter:
                 if n != 0:
                     self.memory[self.pointer] %= n
                 else:
-                    print("Warning: pawprint by zero is not allowed", file=sys.stderr)
+                    print("Error: pawprint by zero is not allowed", file=sys.stderr)
+                    self.memory[self.pointer] = 0
             else:
-                print("Warning: Invalid pawprint syntax. Use 'pawprint <n>'", file=sys.stderr)
+                print("Warning: Invalid pawprint syntax. Use 'pawprint <number>'", file=sys.stderr)
         elif command == 'hissfit':
+            # Negate the current cell
             self.memory[self.pointer] = -self.memory[self.pointer]
-        elif command.startswith('catnap'):
-            parts = command.split()
-            if len(parts) == 2 and parts[1].isdigit():
-                line_num = int(parts[1])
-                if self.memory[self.pointer] == 0:
-                    if 1 <= line_num <= len(self.commands):
-                        self.program_counter = line_num - 1
-                        return
-                    else:
-                        print(f"Warning: catnap to invalid line {line_num}", file=sys.stderr)
-            else:
-                print("Warning: Invalid catnap syntax. Use 'catnap <line_number>'", file=sys.stderr)
-        elif command.startswith('scaredycat'):
-            parts = command.split()
-            if len(parts) == 2 and parts[1].isdigit():
-                line_num = int(parts[1])
-                if self.memory[self.pointer] < 0:
-                    if 1 <= line_num <= len(self.commands):
-                        self.program_counter = line_num - 1
-                        return
-                    else:
-                        print(f"Warning: scaredycat to invalid line {line_num}", file=sys.stderr)
-            else:
-                print("Warning: Invalid scaredycat syntax. Use 'scaredycat <line_number>'", file=sys.stderr)
-        elif command.startswith('puffup'):
-            parts = command.split()
-            if len(parts) == 2 and parts[1].isdigit():
-                n = int(parts[1])
-                if n > 0:
-                    self.memory.extend([0] * n)
-                else:
-                    print("Warning: puffup requires a positive number of cells", file=sys.stderr)
-            else:
-                print("Warning: Invalid puffup syntax. Use 'puffup <n>'", file=sys.stderr)
-        elif command.startswith('shrinktail'):
-            parts = command.split()
-            if len(parts) == 2 and parts[1].isdigit():
-                n = int(parts[1])
-                if n > 0:
-                    if len(self.memory) - n < 1:
-                        print("Warning: shrinktail would remove all cells; at least one cell must remain", file=sys.stderr)
-                    else:
-                        self.memory = self.memory[:len(self.memory)-n]
-                        if self.pointer >= len(self.memory):
-                            self.pointer = len(self.memory) - 1
-                else:
-                    print("Warning: shrinktail requires a positive number of cells", file=sys.stderr)
-            else:
-                print("Warning: Invalid shrinktail syntax. Use 'shrinktail <n>'", file=sys.stderr)
-        elif command.startswith('meowt'):
-            # Custom text output: meowt "your text here"
-            match = re.match(r'meowt\s+"(.*)"', command)
-            if match:
-                self.output.append(match.group(1))
-            else:
-                print("Warning: Invalid meowt syntax. Use 'meowt \"your text here\"'", file=sys.stderr)
-        elif command == 'snuggle':
-            # Copy value from next cell to current cell
+        elif command == 'puffup':
+            # Increment the next cell
             if self.pointer + 1 < len(self.memory):
-                try:
-                    self.memory[self.pointer] = self.memory[self.pointer + 1]
-                except Exception as e:
-                    print(f"Error in snuggle: {e}", file=sys.stderr)
+                self.memory[self.pointer + 1] += 1
             else:
-                print("Error: snuggle requires a next cell", file=sys.stderr)
-        elif command == 'mewmew':
-            # Take user input and store in next cell
+                self.memory.append(1)
+        elif command == 'shrinktail':
+            # Decrement the next cell
             if self.pointer + 1 < len(self.memory):
-                try:
-                    user_input = input('mewmew? ')
-                    self.memory[self.pointer + 1] = int(user_input)
-                except Exception:
-                    print("Error: Invalid input for 'mewmew', setting next cell to 0", file=sys.stderr)
-                    self.memory[self.pointer + 1] = 0
+                self.memory[self.pointer + 1] -= 1
             else:
-                print("Error: mewmew requires a next cell", file=sys.stderr)
+                self.memory.append(-1)
+        elif command == 'scaredycat':
+            # Set the next cell to 0
+            if self.pointer + 1 < len(self.memory):
+                self.memory[self.pointer + 1] = 0
+            else:
+                self.memory.append(0)
         else:
-            print(f"Syntax Error: Unknown or malformed command '{command}' ignored", file=sys.stderr)
+            # Unknown command - ignore
+            pass
+        
+        self.program_counter += 1
     
     def run(self, source_code: str) -> str:
         """Run a .meow program and return the output"""
@@ -288,43 +237,43 @@ class MeowInterpreter:
         while self.program_counter < len(self.commands):
             command = self.commands[self.program_counter]
             self.execute_command(command)
-            self.program_counter += 1
         
         return '\n'.join(self.output)
     
     def run_file(self, filename: str) -> str:
         """Run a .meow file and return the output"""
         try:
-            with open(filename, 'r', encoding='utf-8') as f:
+            with open(filename, 'r') as f:
                 source_code = f.read()
             return self.run(source_code)
         except FileNotFoundError:
             print(f"Error: File '{filename}' not found", file=sys.stderr)
             return ""
         except Exception as e:
-            print(f"Error reading file: {e}", file=sys.stderr)
+            print(f"Error reading file '{filename}': {e}", file=sys.stderr)
             return ""
 
 def main():
-    """Main entry point for the .meow interpreter"""
+    """Main entry point for the command-line interface"""
     if len(sys.argv) < 2:
-        print("MeowLang Interpreter")
-        print("Usage: python meow_interpreter.py <filename.meow>")
-        print("   or: python meow_interpreter.py -e '<code>'")
-        return
+        print("Usage: meow <filename.meow>")
+        print("Or: meow -c '<code>'")
+        sys.exit(1)
     
     interpreter = MeowInterpreter()
     
-    if sys.argv[1] == '-e' and len(sys.argv) > 2:
+    if sys.argv[1] == '-c' and len(sys.argv) >= 3:
         # Execute code from command line
         code = sys.argv[2]
         result = interpreter.run(code)
-        print(result)
+        if result:
+            print(result)
     else:
         # Execute file
         filename = sys.argv[1]
         result = interpreter.run_file(filename)
-        print(result)
+        if result:
+            print(result)
 
 if __name__ == "__main__":
     main()

@@ -1,298 +1,192 @@
-# .meow — The Feline-Friendly Esoteric Programming Language
+# MeowLang 🐱
 
-[![Python](https://img.shields.io/badge/Python-3.7+-blue.svg)](https://python.org)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+A feline-friendly esoteric programming language where every command sounds like a cat! Perfect for learning programming concepts in a fun, approachable way.
 
-> Because programming should be fun, cats are chaotic, and you deserve to write code that goes meow!
+## Features
 
-## What is MeowLang?
-
-MeowLang (.meow) is a whimsical esoteric programming language where every line of code sounds like a cat. Inspired by the chaos of esolangs and the elegance of felines, .meow lets you vibe code using cat noises.
+- **🐱 Cat-themed commands**: Every instruction sounds like a cat sound or behavior
+- **📚 Educational**: Great for learning programming concepts like loops, memory management, and algorithms
+- **🎮 Interactive**: Try it online in the web playground
+- **🔧 Easy to install**: Simple pip installation
+- **📖 Well documented**: Comprehensive documentation and examples
 
 ## Quick Start
 
 ### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/jaytirthjoshi/meow.git
-cd meow
-
-# Run a .meow program
-python meow_interpreter.py examples/hello_world.meow
+pip install meowlang
 ```
 
-### Your First .meow Program
+### Command Line Usage
 
-Create a file called `hello.meow`:
-
-```meow
-🐾 Hello World in .meow 🐾
-meow
-meow
-meow
-purr
-hiss
-purr
-scratch
-purr
-```
-
-Run it:
 ```bash
-python meow_interpreter.py hello.meow
+# Run a .meow file
+meow hello.meow
+
+# Execute code directly
+meow -c "meow meow meow purr"
 ```
 
-Output:
+### Python API
+
+```python
+from meowlang import MeowInterpreter
+
+interpreter = MeowInterpreter()
+result = interpreter.run('meow meow meow purr')
+print(result)  # Output: 3
 ```
-3
-2
-0
-```
 
-## Commands Reference
+## Core Commands
 
-| Command | Action | Example |
-|---------|--------|---------|
-| `meow` | Increment memory value by 1 | `meow` → memory += 1 |
-| `hiss` | Decrement memory value by 1 | `hiss` → memory -= 1 |
-| `purr` | Print the current memory value | `purr` → prints memory |
-| `meowt "text"` | Print custom text output | `meowt "Hello!"` → prints Hello! |
-| `nap` | Do nothing (no-op) | `nap` → does nothing |
-| `scratch` | Reset memory value to 0 | `scratch` → memory = 0 |
-| `lick` | Double the current memory value | `lick` → memory *= 2 |
-| `zoomies` | Square the memory value | `zoomies` → memory = memory² |
-| `yowl` | Begin a loop (while memory != 0) | `yowl` → loop start |
-| `paw` | End a loop | `paw` → loop end |
-| `sleep` | Sleep for memory value milliseconds | `sleep` → pause execution |
-| `🐾` | Comment/decoration (ignored) | `🐾 comment 🐾` |
-| `mew` | Take user input and set memory to that value | `mew` → memory = user input |
-| `pounce <line_number>` | Jump to the specified line number (1-based) | `pounce 5` |
-| `knead` | Add current and next cell, store in current | `knead` → memory[pointer] += memory[pointer+1] |
-| `scratchout` | Subtract next cell from current, store in current | `scratchout` → memory[pointer] -= memory[pointer+1] |
-| `pounceon` | Multiply current and next cell, store in current | `pounceon` → memory[pointer] *= memory[pointer+1] |
-| `hairball` | Integer divide current by next cell, store in current | `hairball` → memory[pointer] //= memory[pointer+1] |
-| `pawprint` | Modulo current by next cell, store in current | `pawprint` → memory[pointer] %= memory[pointer+1] |
-| `catnip` | Raise current to power of next cell, store in current | `catnip` → memory[pointer] **= memory[pointer+1] |
-| `snuggle` | Copy value from next cell to current cell | `snuggle` → memory[pointer] = memory[pointer+1] |
-| `mewmew` | Take user input and store in next cell | `mewmew` → memory[pointer+1] = user input |
+| Command | Description | Brainfuck Equivalent |
+|---------|-------------|---------------------|
+| `meow` | Increment current cell | `+` |
+| `hiss` | Decrement current cell | `-` |
+| `purr` | Output current cell | `.` |
+| `mew` | Input to current cell | `,` |
+| `left` | Move pointer left | `<` |
+| `right` | Move pointer right | `>` |
+| `yowl` | Start loop | `[` |
+| `paw` | End loop | `]` |
+| `nap` | No operation | N/A |
+| `🐾` | Comment | N/A |
 
-## File Extension
+## Advanced Commands
 
-All MeowLang programs are saved as `.meow` files:
-- `hello_world.meow`
-- `fibonacci.meow`
-- `countdown.meow`
+| Command | Description |
+|---------|-------------|
+| `scratch` | Set current cell to 0 |
+| `lick` | Multiply current cell by 2 |
+| `stretch` | Set current cell to absolute value |
+| `zoomies` | Square the current cell |
+| `groom` | Sort memory array |
+| `sleep` | Sleep for memory value milliseconds |
+| `chase` | Generate random number (0-9) |
+| `chase <min> <max>` | Generate random number in range |
+| `pounce <line>` | Jump to line number |
+| `knead` | Add current and next cell |
+| `scratchout` | Subtract next from current cell |
+| `pounceon` | Multiply current and next cell |
+| `hairball` | Integer divide current by next cell |
+| `pawprint` | Modulo current by next cell |
+| `catnip` | Power: current to the power of next |
+| `hissfit` | Negate current cell |
+| `puffup` | Increment next cell |
+| `shrinktail` | Decrement next cell |
+| `scaredycat` | Set next cell to 0 |
 
 ## Examples
 
-### Countdown Program
+### Hello World (Output "Hello")
 
 ```meow
-🐾 Countdown from 5 to 1 🐾
-meow
-meow
-meow
-meow
-meow
-yowl
-purr
-hiss
-paw
+🐾 Hello World in MeowLang
+meow meow meow meow meow meow meow meow meow meow 🐾 Set cell 0 to 10
+yowl 🐾 Start loop
+    meow meow meow meow meow meow meow meow meow meow 🐾 Add 10 to cell 0
+    right 🐾 Move to cell 1
+    meow meow meow meow meow meow meow meow meow meow 🐾 Set cell 1 to 10
+    left 🐾 Back to cell 0
+    hiss 🐾 Decrement cell 0
+paw 🐾 End loop
+right 🐾 Move to cell 1
+purr 🐾 Output cell 1 (should be 10)
 ```
 
-**Output:**
-```
-5
-4
-3
-2
-1
-```
-
-### Mathematical Operations
+### Simple Calculator
 
 ```meow
-🐾 Powers and multiplication demo 🐾
-meow
-meow
-purr
-lick
-purr
-lick
-purr
-lick
-purr
-zoomies
-purr
-```
-
-**Output:**
-```
-2
-4
-8
-16
-256
+🐾 Add two numbers
+mew 🐾 Get first number
+right 🐾 Move to next cell
+mew 🐾 Get second number
+left 🐾 Back to first cell
+knead 🐾 Add cells together
+left 🐾 Move to result cell
+purr 🐾 Output result
 ```
 
 ### Fibonacci Sequence
 
 ```meow
-🐾 First 8 Fibonacci numbers 🐾
-meow
-purr
-purr
-meow
-meow
-purr
-meow
-meow
-meow
-purr
-🐾 ... (see examples/fibonacci.meow for full program) 🐾
+🐾 Generate Fibonacci numbers
+meow meow meow meow meow meow meow meow meow meow 🐾 Set counter to 10
+yowl 🐾 Start loop
+    right 🐾 Move to next cell
+    meow meow meow meow meow meow meow meow meow meow 🐾 Set to 10
+    right 🐾 Move to next cell
+    meow meow meow meow meow meow meow meow meow meow 🐾 Set to 10
+    left left 🐾 Back to counter
+    hiss 🐾 Decrement counter
+paw 🐾 End loop
+right 🐾 Move to first number
+purr 🐾 Output first number
+right 🐾 Move to second number
+purr 🐾 Output second number
 ```
 
-**Output:**
-```
-1
-1
-2
-3
-5
-8
-13
-21
-```
+## Web Demo
 
-### Stretch Command
+Try MeowLang online at the [web playground](https://meowlang.jaytirthjoshi.com)!
 
-```meow
-🐾 Demonstrate the 'stretch' command 🐾
-meow
-meow
-meow
-hiss
-hiss
-hiss
-hiss
-purr
-stretch
-purr
-🐾 The first purr should print -1, the second should print 1 🐾
+## Development
+
+### Installation for Development
+
+```bash
+git clone https://github.com/jaytirthjoshi/meow.git
+cd meow
+pip install -e .
+pip install -e ".[dev,web]"
 ```
 
-**Output:**
-```
--1
-1
-```
+### Running Tests
 
-### Groom Command (Sort Memory)
-
-```meow
-🐾 Demonstrate the 'groom' command (sort memory) 🐾
-meow
-meow
-right
-meow
-meow
-meow
-right
-meow
-hiss
-hiss
-purr 🐾 Should print -1 (third cell)
-groom
-left
-left
-purr 🐾 Should print 2 (first cell, after sort)
-right
-purr 🐾 Should print 3 (second cell, after sort)
-right
-purr 🐾 Should print -1 (third cell, after sort)
+```bash
+pytest
 ```
 
-**Output:**
-```
--1
-2
-3
--1
-```
+### Running the Web Demo
 
-### Puffup and Shrinktail (Tape Expansion/Contraction)
-
-```meow
-🐾 Demonstrate 'puffup' and 'shrinktail' commands 🐾
-meow
-meow
-purr 🐾 Should print 2 (cell 0)
-puffup 2
-right
-meow
-purr 🐾 Should print 1 (cell 1)
-right
-meow
-meow
-purr 🐾 Should print 2 (cell 2)
-shrinktail 1
-right
-purr 🐾 Should print 0 (cell 2 was removed, pointer now at last cell)
+```bash
+cd demo
+python app.py
 ```
 
-**Output:**
-```
-2
-1
-2
-0
-```
+Then visit `http://localhost:5000`
 
-### Custom Text Output
-
-```meow
-meowt "Hello, world!"
-purr
-meowt "Done!"
-```
-
-**Output:**
-```
-Hello, world!
-0
-Done!
-```
-
-### Calculator Example
-
-```meow
-🐾 Simple calculator: (3 + 4) * 2 🐾
-meow
-meow
-meow      🐾 cell 0 = 3
-right
-meow
-meow
-meow
-meow      🐾 cell 1 = 4
-left
-knead     🐾 cell 0 = 3 + 4 = 7
-right
-meow
-meow      🐾 cell 1 = 2
-left
-pounceon  🐾 cell 0 = 7 * 2 = 14
-purr      🐾 prints 14
-```
-
-### More Examples
-
-See `examples/calculator.meow` for a full calculator program using the cat-themed calculator commands (`knead`, `scratchout`, `pounceon`, `hairball`, `pawprint`, `catnip`).
-
-## Usage
-
-### Command Line Interface
+## Project Structure
 
 ```
+meow/
+├── meowlang/           # Main package
+│   ├── __init__.py
+│   └── interpreter.py  # Core interpreter
+├── demo/               # Web demo
+│   ├── app.py         # Flask server
+│   ├── templates/     # HTML templates
+│   └── static/        # CSS/JS assets
+├── examples/          # Example programs
+├── tests/            # Test files
+└── setup.py          # Package configuration
 ```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Inspired by Brainfuck and other esoteric programming languages
+- Built with ❤️ and lots of cat puns
+- Special thanks to all the cats who provided inspiration
+
+---
+
+**🐱 MeowLang - Where programming meets purrfection! 🐱**

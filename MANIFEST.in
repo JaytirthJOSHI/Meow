@@ -1,0 +1,25 @@
+include README.md
+include LICENSE
+include requirements.txt
+include examples/*.meow
+include demo/static/css/*.css
+include demo/static/js/*.js
+include demo/templates/*.html
+include demo/app.py
+include demo/requirements.txt
+include test_meow.py
+include meow.tmLanguage.json
+include vscode-meowlang/*.json
+include vscode-meowlang/package.json
+recursive-include vscode-meowlang *
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * *.so
+recursive-exclude * .DS_Store
+recursive-exclude * .git
+recursive-exclude * .gitignore
+recursive-exclude * .vscode
+recursive-exclude * venv
+recursive-exclude * dist
+recursive-exclude * build
+recursive-exclude * *.egg-info 

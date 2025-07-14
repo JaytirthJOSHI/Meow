@@ -1,4 +1,7 @@
-# Optional dependencies for development
-pytest>=6.0.0  # For running tests
-black>=21.0.0  # For code formatting
-flake8>=3.8.0  # For linting
+flask>=2.0.0
+flask-cors>=3.0.0
+pytest>=6.0.0
+pytest-cov>=2.0.0
+black>=21.0.0
+flake8>=3.8.0
+mypy>=0.800.0

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeowLang Examples - Code Samples and Tutorials</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/examples.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">🐾</span>
+                <span class="logo-text">MeowLang</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="home.html" class="nav-link">Home</a></li>
+                <li><a href="playground.html" class="nav-link">Playground</a></li>
+                <li><a href="docs.html" class="nav-link">Documentation</a></li>
+                <li><a href="examples.html" class="nav-link active">Examples</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="examples-container">
+            <div class="examples-header">
+                <h1>📝 MeowLang Examples</h1>
+                <p>Learn MeowLang through practical examples and tutorials</p>
+            </div>
+
+            <div class="examples-content">
+                <div class="example-category">
+                    <h2>🐱 Beginner Examples</h2>
+                    
+                    <div class="example-item">
+                        <div class="example-header">
+                            <h3>Hello World</h3>
+                            <span class="difficulty beginner">Beginner</span>
+                        </div>
+                        <p>The classic first program - output some numbers!</p>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Code</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+                            </div>
+                            <pre><code>meow meow meow  🐾 Add 3 to current cell
+purr            🐾 Output current cell value
+hiss            🐾 Subtract 1 from current cell
+purr            🐾 Output current cell value
+scratch         🐾 Set current cell to 0
+purr            🐾 Output current cell value</code></pre>
+                        </div>
+                        <div class="output-block">
+                            <div class="output-header">Output</div>
+                            <div class="output-content">3, 2, 0</div>
+                        </div>
+                        <div class="explanation">
+                            <h4>How it works:</h4>
+                            <ul>
+                                <li><code>meow meow meow</code> adds 3 to the current cell</li>
+                                <li><code>purr</code> outputs the value (3)</li>
+                                <li><code>hiss</code> subtracts 1 from the cell</li>
+                                <li><code>purr</code> outputs the new value (2)</li>
+                                <li><code>scratch</code> sets the cell to 0</li>
+                                <li><code>purr</code> outputs the final value (0)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="example-item">
+                        <div class="example-header">
+                            <h3>Simple Loop</h3>
+                            <span class="difficulty beginner">Beginner</span>
+                        </div>
+                        <p>Learn how to create loops with yowl and paw!</p>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Code</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+                            </div>
+                            <pre><code>meow meow meow meow meow  🐾 Set initial value to 5
+yowl            🐾 Start loop (while current cell != 0)
+  purr          🐾 Output current value
+  hiss          🐾 Decrement by 1
+paw             🐾 End loop</code></pre>
+                        </div>
+                        <div class="output-block">
+                            <div class="output-header">Output</div>
+                            <div class="output-content">5, 4, 3, 2, 1</div>
+                        </div>
+                        <div class="explanation">
+                            <h4>How it works:</h4>
+                            <ul>
+                                <li>Set the initial value to 5</li>
+                                <li><code>yowl</code> starts a loop that continues while the current cell is not 0</li>
+                                <li>Inside the loop, output the current value and decrement it</li>
+                                <li><code>paw</code> ends the loop and jumps back to <code>yowl</code></li>
+                                <li>The loop continues until the cell reaches 0</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="example-category">
+                    <h2>🐾 Intermediate Examples</h2>
+                    
+                    <div class="example-item">
+                        <div class="example-header">
+                            <h3>Memory Manipulation</h3>
+                            <span class="difficulty intermediate">Intermediate</span>
+                        </div>
+                        <p>Learn to work with multiple memory cells!</p>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Code</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+                            </div>
+                            <pre><code>meow meow meow    🐾 Set first cell to 3
+right            🐾 Move to second cell
+meow meow        🐾 Set second cell to 2
+left             🐾 Move back to first cell
+purr             🐾 Output first cell (3)
+right            🐾 Move to second cell
+purr             🐾 Output second cell (2)</code></pre>
+                        </div>
+                        <div class="output-block">
+                            <div class="output-header">Output</div>
+                            <div class="output-content">3, 2</div>
+                        </div>
+                        <div class="explanation">
+                            <h4>How it works:</h4>
+                            <ul>
+                                <li>Set the first memory cell to 3</li>
+                                <li><code>right</code> moves the pointer to the second cell</li>
+                                <li>Set the second cell to 2</li>
+                                <li><code>left</code> moves back to the first cell</li>
+                                <li>Output both cell values</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="example-item">
+                        <div class="example-header">
+                            <h3>Countdown Timer</h3>
+                            <span class="difficulty intermediate">Intermediate</span>
+                        </div>
+                        <p>Create a countdown from 10 to 0!</p>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Code</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+                            </div>
+                            <pre><code>meow meow meow meow meow meow meow meow meow meow  🐾 Set to 10
+yowl            🐾 Start countdown loop
+  purr          🐾 Output current number
+  hiss          🐾 Decrement by 1
+paw             🐾 End loop when reaches 0</code></pre>
+                        </div>
+                        <div class="output-block">
+                            <div class="output-header">Output</div>
+                            <div class="output-content">10, 9, 8, 7, 6, 5, 4, 3, 2, 1</div>
+                        </div>
+                        <div class="explanation">
+                            <h4>How it works:</h4>
+                            <ul>
+                                <li>Set the initial value to 10 using ten <code>meow</code> commands</li>
+                                <li>Use a loop to count down from 10 to 1</li>
+                                <li>Output each number as we count down</li>
+                                <li>When the cell reaches 0, the loop ends</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="example-category">
+                    <h2>🐯 Advanced Examples</h2>
+                    
+                    <div class="example-item">
+                        <div class="example-header">
+                            <h3>Fibonacci Sequence</h3>
+                            <span class="difficulty advanced">Advanced</span>
+                        </div>
+                        <p>Generate the Fibonacci sequence using multiple memory cells!</p>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Code</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+                            </div>
+                            <pre><code>meow meow meow meow meow  🐾 Set first number to 5
+right            🐾 Move to second cell
+meow meow meow meow meow meow meow meow  🐾 Set second number to 8
+left             🐾 Move back to first cell
+yowl            🐾 Start loop
+  purr          🐾 Output first number
+  knead         🐾 Add second cell to first
+  right         🐾 Move to second cell
+  purr          🐾 Output second number
+  scratchout    🐾 Subtract first from second
+  left          🐾 Move back to first cell
+paw             🐾 End loop</code></pre>
+                        </div>
+                        <div class="output-block">
+                            <div class="output-header">Output</div>
+                            <div class="output-content">5, 8, 13, 21, 34, 55, 89, 144...</div>
+                        </div>
+                        <div class="explanation">
+                            <h4>How it works:</h4>
+                            <ul>
+                                <li>Initialize two cells with the first two Fibonacci numbers</li>
+                                <li>In each iteration, output both numbers</li>
+                                <li>Add the second number to the first</li>
+                                <li>Calculate the next number by subtracting</li>
+                                <li>Continue the sequence</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="example-item">
+                        <div class="example-header">
+                            <h3>Random Number Generator</h3>
+                            <span class="difficulty advanced">Advanced</span>
+                        </div>
+                        <p>Use the chase command to generate random numbers!</p>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Code</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+                            </div>
+                            <pre><code>chase            🐾 Generate random number (0-9)
+purr             🐾 Output the random number
+chase            🐾 Generate another random number
+purr             🐾 Output the second random number
+chase            🐾 Generate a third random number
+purr             🐾 Output the third random number</code></pre>
+                        </div>
+                        <div class="output-block">
+                            <div class="output-header">Output</div>
+                            <div class="output-content">Random numbers between 0-9 (e.g., 7, 3, 9)</div>
+                        </div>
+                        <div class="explanation">
+                            <h4>How it works:</h4>
+                            <ul>
+                                <li><code>chase</code> generates a random number between 0 and 9</li>
+                                <li>Each call to <code>chase</code> produces a different random value</li>
+                                <li>Use <code>purr</code> to output each random number</li>
+                                <li>Great for creating unpredictable behavior in programs</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="example-category">
+                    <h2>🎯 Practice Challenges</h2>
+                    
+                    <div class="challenge-item">
+                        <h3>Challenge 1: Number Doubler</h3>
+                        <p>Write a program that takes a number and doubles it. Use the <code>lick</code> command!</p>
+                        <div class="hint">
+                            <strong>Hint:</strong> The <code>lick</code> command multiplies the current cell by 2.
+                        </div>
+                        <button class="show-solution-btn" onclick="toggleSolution(this)">🐾 Show Solution</button>
+                        <div class="solution" style="display: none;">
+                            <pre><code>meow meow meow  🐾 Set initial value to 3
+lick            🐾 Multiply by 2 (now 6)
+purr            🐾 Output the result</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="challenge-item">
+                        <h3>Challenge 2: Pattern Printer</h3>
+                        <p>Create a program that prints the pattern: 1, 2, 4, 8, 16</p>
+                        <div class="hint">
+                            <strong>Hint:</strong> Use loops and the <code>lick</code> command to double numbers.
+                        </div>
+                        <button class="show-solution-btn" onclick="toggleSolution(this)">🐾 Show Solution</button>
+                        <div class="solution" style="display: none;">
+                            <pre><code>meow            🐾 Start with 1
+yowl            🐾 Start loop
+  purr          🐾 Output current number
+  lick          🐾 Double the number
+  hiss hiss hiss hiss hiss  🐾 Subtract 5 to control loop
+paw             🐾 End loop</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>🐾 MeowLang</h3>
+                <p>Making programming as cute as it is powerful.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="playground.html">Playground</a></li>
+                    <li><a href="docs.html">Documentation</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="https://github.com">GitHub</a></li>
+                    <li><a href="docs.html#commands">Commands</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 MeowLang. Made with 🐾 and lots of purrs.</p>
+        </div>
+    </footer>
+
+    <script src="../scripts/nav.js"></script>
+    <script src="../scripts/examples.js"></script>
+</body>
+</html> 
