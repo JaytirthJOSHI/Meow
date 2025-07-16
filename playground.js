@@ -67,14 +67,19 @@ class MeowLangInterpreter {
 
     parse(code) {
         // Remove comments and split into tokens
+        if (!code || typeof code !== 'string') {
+            return [];
+        }
+        
         const lines = code.split('\n');
         const tokens = [];
         
         for (const line of lines) {
+            if (typeof line !== 'string') continue;
             const commentIndex = line.indexOf('🐾');
             const codePart = commentIndex >= 0 ? line.substring(0, commentIndex) : line;
             const words = codePart.trim().split(/\s+/);
-            tokens.push(...words.filter(word => word.length > 0));
+            tokens.push(...words.filter(word => word && word.length > 0));
         }
         
         return tokens;
@@ -87,7 +92,18 @@ class MeowLangInterpreter {
         this.input = input;
         this.inputIndex = 0;
         this.loopStack = [];
+        
+        // Parse code and validate tokens
         this.tokens = this.parse(code);
+        if (!this.tokens || !Array.isArray(this.tokens)) {
+            return {
+                success: false,
+                output: '',
+                error: 'Failed to parse code',
+                executionTime: 0
+            };
+        }
+        
         this.currentIndex = 0;
 
         const startTime = Date.now();
@@ -307,6 +323,11 @@ paw 🐾 End outer loop`
         if (!code) {
             updateStatus('No code to run', 'error');
             return;
+        }
+
+        // Ensure interpreter exists
+        if (!window.meowInterpreter) {
+            window.meowInterpreter = new MeowLangInterpreter();
         }
 
         updateStatus('Running...', 'info');
