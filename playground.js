@@ -1,4 +1,6 @@
 // MeowLang Interpreter for Playground
+console.log('Loading MeowLang Interpreter...');
+
 class MeowLangInterpreter {
     constructor() {
         this.memory = new Array(30000).fill(0);
@@ -161,6 +163,8 @@ class MeowLangInterpreter {
 
 // Playground functionality
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded - Starting playground initialization...');
+    
     // Get DOM elements with null checks
     const codeEditor = document.getElementById('codeEditor');
     const output = document.getElementById('output');
@@ -182,8 +186,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check if we're on the playground page
     if (!codeEditor || !output) {
         console.log('Not on playground page, skipping playground initialization');
+        console.log('codeEditor:', codeEditor, 'output:', output);
         return;
     }
+    
+    console.log('Playground page detected, continuing initialization...');
 
     // Global interpreter instance
     window.meowInterpreter = new MeowLangInterpreter();
@@ -317,9 +324,14 @@ paw 🐾 End outer loop`
 
     // Run code
     function runCode() {
-        if (!codeEditor) return;
+        console.log('runCode called');
+        if (!codeEditor) {
+            console.log('No codeEditor found');
+            return;
+        }
         
         const code = codeEditor.value.trim();
+        console.log('Code to run:', code);
         if (!code) {
             updateStatus('No code to run', 'error');
             return;
@@ -327,6 +339,7 @@ paw 🐾 End outer loop`
 
         // Ensure interpreter exists
         if (!window.meowInterpreter) {
+            console.log('Creating new interpreter...');
             window.meowInterpreter = new MeowLangInterpreter();
         }
 
