@@ -12,9 +12,10 @@ class MeowLangInterpreter {
         this.commands = {
             'meow': () => this.memory[this.pointer]++,
             'hiss': () => this.memory[this.pointer]--,
-            'purr': () => this.output += String.fromCharCode(this.memory[this.pointer]),
+            'purr': () => this.output += this.memory[this.pointer].toString() + '\n',
+            'nap': () => {}, // No-op command
             'mew': () => {
-                if (this.inputIndex < this.input.length) {
+                if (this.input && this.inputIndex < this.input.length) {
                     this.memory[this.pointer] = this.input.charCodeAt(this.inputIndex++);
                 }
             },
@@ -26,16 +27,22 @@ class MeowLangInterpreter {
                 } else {
                     // Skip to matching paw
                     let depth = 1;
-                    while (depth > 0 && this.currentIndex < this.tokens.length) {
-                        this.currentIndex++;
-                        if (this.tokens[this.currentIndex] === 'yowl') depth++;
-                        if (this.tokens[this.currentIndex] === 'paw') depth--;
+                    let searchIndex = this.currentIndex + 1;
+                    while (depth > 0 && searchIndex < (this.tokens ? this.tokens.length : 0)) {
+                        if (this.tokens[searchIndex] === 'yowl') depth++;
+                        if (this.tokens[searchIndex] === 'paw') depth--;
+                        searchIndex++;
+                    }
+                    if (depth === 0) {
+                        this.currentIndex = searchIndex - 1; // Will be incremented by main loop
                     }
                 }
             },
             'paw': () => {
-                if (this.loopStack.length > 0) {
-                    this.currentIndex = this.loopStack.pop() - 1;
+                if (this.memory[this.pointer] !== 0 && this.loopStack.length > 0) {
+                    this.currentIndex = this.loopStack[this.loopStack.length - 1] - 1; // Jump back to yowl
+                } else if (this.loopStack.length > 0) {
+                    this.loopStack.pop(); // Exit loop
                 }
             },
             'scratch': () => this.memory[this.pointer] = 0,
@@ -63,6 +70,25 @@ class MeowLangInterpreter {
             'knead': () => {
                 const nextPointer = (this.pointer + 1) % this.memory.length;
                 this.memory[this.pointer] += this.memory[nextPointer];
+            },
+            'scratchout': () => {
+                const nextPointer = (this.pointer + 1) % this.memory.length;
+                this.memory[this.pointer] -= this.memory[nextPointer];
+            },
+            'pounceon': () => {
+                const nextPointer = (this.pointer + 1) % this.memory.length;
+                this.memory[this.pointer] *= this.memory[nextPointer];
+            },
+            'hairball': () => {
+                const nextPointer = (this.pointer + 1) % this.memory.length;
+                if (this.memory[nextPointer] !== 0) {
+                    this.memory[this.pointer] = Math.floor(this.memory[this.pointer] / this.memory[nextPointer]);
+                } else {
+                    this.memory[this.pointer] = Math.floor(this.memory[this.pointer] / 2);
+                }
+            },
+            'hissfit': () => {
+                this.memory[this.pointer] = -this.memory[this.pointer];
             }
         };
     }
@@ -91,13 +117,14 @@ class MeowLangInterpreter {
         this.memory = new Array(30000).fill(0);
         this.pointer = 0;
         this.output = '';
-        this.input = input;
+        this.input = input || '';
         this.inputIndex = 0;
         this.loopStack = [];
         
         // Parse code and validate tokens
         this.tokens = this.parse(code);
         if (!this.tokens || !Array.isArray(this.tokens)) {
+            this.tokens = []; // Ensure tokens is always an array
             return {
                 success: false,
                 output: '',
@@ -112,14 +139,14 @@ class MeowLangInterpreter {
         const maxExecutionTime = 5000; // 5 seconds max
 
         try {
-            while (this.currentIndex < this.tokens.length) {
+            while (this.currentIndex < (this.tokens ? this.tokens.length : 0)) {
                 if (Date.now() - startTime > maxExecutionTime) {
                     throw new Error('Execution timeout - possible infinite loop');
                 }
 
-                const token = this.tokens[this.currentIndex];
+                const token = this.tokens ? this.tokens[this.currentIndex] : null;
                 
-                if (this.commands[token]) {
+                if (token && this.commands[token]) {
                     this.commands[token]();
                 }
                 // Ignore unknown tokens (treat as comments)
@@ -164,6 +191,8 @@ class MeowLangInterpreter {
 // Playground functionality
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM Content Loaded - Starting playground initialization...');
+    
+    try {
     
     // Get DOM elements with null checks
     const codeEditor = document.getElementById('codeEditor');
@@ -293,13 +322,13 @@ paw 🐾 End outer loop`
 
     // Update memory visualization
     function updateMemoryVisualization(memoryState) {
-        if (!memoryVisualizer || !pointerPos || !memorySize) return;
+        if (!memoryVisualizer || !pointerPos || !memorySize || !memoryState) return;
         
         memoryVisualizer.innerHTML = '';
-        pointerPos.textContent = memoryState.pointer;
+        pointerPos.textContent = memoryState.pointer || 0;
         
         // Show first 20 cells or all non-zero cells
-        const cellsToShow = Math.max(20, memoryState.nonZeroCells.length + 5);
+        const cellsToShow = Math.max(20, (memoryState.nonZeroCells ? memoryState.nonZeroCells.length : 0) + 5);
         
         for (let i = 0; i < cellsToShow; i++) {
             const cell = document.createElement('div');
@@ -309,13 +338,15 @@ paw 🐾 End outer loop`
                 cell.classList.add('current');
             }
             
-            if (memoryState.memory[i] !== 0) {
+            const cellValue = (memoryState.memory && memoryState.memory[i] !== undefined) ? memoryState.memory[i] : 0;
+            
+            if (cellValue !== 0) {
                 cell.classList.add('non-zero');
             } else {
                 cell.classList.add('zero');
             }
             
-            cell.textContent = memoryState.memory[i];
+            cell.textContent = cellValue;
             memoryVisualizer.appendChild(cell);
         }
         
@@ -533,8 +564,12 @@ paw 🐾 End outer loop`
     updateCounts();
     
     // Load a default example
-    if (examples.length > 0) {
-        loadExample(examples[0].code);
+    if (examples && examples.length > 0 && typeof loadExample === 'function') {
+        try {
+            loadExample(examples[0].code);
+        } catch (error) {
+            console.error('Error loading default example:', error);
+        }
     }
 
     // Add syntax highlighting (simple)
@@ -600,4 +635,9 @@ paw 🐾 End outer loop`
     console.log('%cCtrl+Enter: Run code', 'color: #64748b; font-size: 12px;');
     console.log('%cCtrl+S: Save code', 'color: #64748b; font-size: 12px;');
     console.log('%cCtrl+L: Clear code', 'color: #64748b; font-size: 12px;');
+    
+    } catch (error) {
+        console.error('Error during playground initialization:', error);
+        console.error('Stack trace:', error.stack);
+    }
 });

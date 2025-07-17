@@ -1,0 +1,17 @@
+🐾 Calculator Example: ((5 + 3) * 4) - 6 = 26 🐾
+meow meow meow meow meow      🐾 cell 0 = 5
+right
+meow meow meow              🐾 cell 1 = 3
+left
+knead                       🐾 cell 0 = 5 + 3 = 8
+right
+scratch                     🐾 reset cell 1 to 0
+meow meow meow meow        🐾 cell 1 = 4
+left
+pounceon                    🐾 cell 0 = 8 * 4 = 32
+right
+scratch                     🐾 reset cell 1 to 0
+meow meow meow meow meow meow 🐾 cell 1 = 6
+left
+scratchout                  🐾 cell 0 = 32 - 6 = 26
+purr                        🐾 prints 26 

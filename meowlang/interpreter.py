@@ -112,6 +112,15 @@ class MeowInterpreter:
             except Exception:
                 print("Warning: Invalid input for 'mew', setting memory to 0", file=sys.stderr)
                 self.memory[self.pointer] = 0
+        elif command == 'pounceon':
+            # Multiply current and next cell, store in current
+            if self.pointer + 1 < len(self.memory):
+                try:
+                    self.memory[self.pointer] *= self.memory[self.pointer + 1]
+                except Exception as e:
+                    print(f"Error in pounceon: {e}", file=sys.stderr)
+            else:
+                print("Error: pounceon requires a next cell", file=sys.stderr)
         elif command.startswith('pounce'):
             parts = command.split()
             if len(parts) == 2 and parts[1].isdigit():
@@ -141,15 +150,6 @@ class MeowInterpreter:
                     print(f"Error in scratchout: {e}", file=sys.stderr)
             else:
                 print("Error: scratchout requires a next cell", file=sys.stderr)
-        elif command == 'pounceon':
-            # Multiply current and next cell, store in current
-            if self.pointer + 1 < len(self.memory):
-                try:
-                    self.memory[self.pointer] *= self.memory[self.pointer + 1]
-                except Exception as e:
-                    print(f"Error in pounceon: {e}", file=sys.stderr)
-            else:
-                print("Error: pounceon requires a next cell", file=sys.stderr)
         elif command == 'hairball':
             # Integer divide current by next cell, store in current
             if self.pointer + 1 < len(self.memory):

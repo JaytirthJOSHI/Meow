@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Typing animation for hero title
     function typeWriter(element, text, speed = 100) {
-        if (!element) return;
+        if (!element || !text || typeof text !== 'string') return;
         
         let i = 0;
         element.innerHTML = '';
